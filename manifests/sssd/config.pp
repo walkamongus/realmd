@@ -6,8 +6,7 @@ class realmd::sssd::config {
 
   $_final_config = deep_merge($::realmd::sssd_default_config, $::realmd::sssd_config)
 
-  file { 'sssd_config_file':
-    path    => $::realmd::sssd_config_file,
+  file { $::realmd::sssd_config_file:
     content => template('realmd/sssd.conf.erb'),
     owner   => 'root',
     group   => 'root',

@@ -10,5 +10,6 @@ class realmd::sssd::service {
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
+    subscribe  => File[$::realmd::sssd_config_file],
   }
 }
