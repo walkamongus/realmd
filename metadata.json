@@ -1,0 +1,24 @@
+{
+  "name": "walkamongus-realmd",
+  "version": "0.1.0",
+  "author": "Chadwick Banning",
+  "summary": "Puppet module to install and configure Realmd",
+  "license": "Apache-2.0",
+  "source": "https://github.com/walkamongus/realmd",
+  "project_page": "https://github.com/walkamongus/realmd",
+  "issues_url": "https://github.com/walkamongus/realmd/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ]
+}
