@@ -39,9 +39,16 @@ class realmd::params {
       $domain_join_password    = undef
       $krb_ticket_join         = false
       $krb_keytab              = undef
-      $krb_initialize_config   = false
+      $krb_initialize_config   = true
       $krb_config_file         = '/etc/krb5.conf'
-      $krb_config              = {}
+      $krb_config              = {
+        'libdefaults' => {
+          'default_realm'    => upcase($::domain),
+          'dns_lookup_realm' => true,
+          'dns_lookup_kdc'   => true,
+          'kdc_timesync'     => '0',
+        },
+      }
     }
     default: {
       fail("${::operatingsystem} not supported")
