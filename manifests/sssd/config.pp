@@ -13,17 +13,4 @@ class realmd::sssd::config {
     mode    => '0600',
   }
 
-  if $::realmd::enable_mkhomedir {
-    exec { 'enable_mkhomedir':
-      command => $::realmd::enable_mkhomedir_cmd,
-      unless  => $::realmd::pam_mkhomedir_check,
-    }
-  }
-  else {
-    exec { 'disable_mkhomedir':
-      command => $::realmd::disable_mkhomedir_cmd,
-      onlyif  => $::realmd::pam_mkhomedir_check,
-    }
-  }
-
 }

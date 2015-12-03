@@ -16,11 +16,8 @@ describe 'realmd' do
 	          :group => 'root',
 	          :mode  => '0600'
 	        }) }
+
 	        it { should contain_file('/etc/sssd/sssd.conf').with_content(/services = nss,pam/) }
-	        it { should contain_exec('enable_mkhomedir').with({
-	          :command => '/usr/sbin/authconfig --enablemkhomedir --update',
-	          :unless  => '/bin/grep -E \'^USEMKHOMEDIR=yes$\' /etc/sysconfig/authconfig'
-	        }) }
         end
       end
     end

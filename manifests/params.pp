@@ -30,10 +30,6 @@ class realmd::params {
         'oddjob',
         'oddjob-mkhomedir',
       ]
-      $enable_mkhomedir        = true
-      $enable_mkhomedir_cmd    = '/usr/sbin/authconfig --enablemkhomedir --update'
-      $disable_mkhomedir_cmd   = '/usr/sbin/authconfig --disablemkhomedir --update'
-      $pam_mkhomedir_check     = '/bin/grep -E \'^USEMKHOMEDIR=yes$\' /etc/sysconfig/authconfig'
       $domain                  = undef
       $domain_join_user        = undef
       $domain_join_password    = undef
