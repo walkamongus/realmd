@@ -21,13 +21,6 @@ class realmd::join::keytab {
   }
 
   if $_manage_krb_config {
-    exec {'remove_krb_config_file':
-      path    => '/usr/bin:/usr/sbin:/bin',
-      command => "rm -f ${_krb_config_file}",
-      onlyif  => "test -f ${_krb_config_file}",
-      before  => File['krb_configuration'],
-    }
-
     file { 'krb_configuration':
       ensure  => present,
       path    => $_krb_config_file,
@@ -36,7 +29,6 @@ class realmd::join::keytab {
       mode    => '0644',
       content => template('realmd/krb5.conf.erb'),
       before  => Exec['run_kinit_with_keytab'],
-      require => Exec['remove_krb_config_file'],
     }
   }
 
