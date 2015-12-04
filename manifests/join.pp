@@ -5,10 +5,10 @@
 class realmd::join {
 
   if $::realmd::krb_ticket_join {
-    class { '::realmd::join::keytab': }
+    contain '::realmd::join::keytab'
   }
   else {
-    class { '::realmd::join::password': }
+    contain '::realmd::join::password'
   }
 
 }
