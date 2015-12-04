@@ -15,7 +15,6 @@ describe 'realmd' do
           it { is_expected.to contain_service('sssd').with(
             :ensure     => 'running',
             :enable     => true,
-            :subscribe  => 'File[/etc/sssd/sssd.conf]',
           )}
         end
       end

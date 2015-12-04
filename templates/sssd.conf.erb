@@ -1,4 +1,4 @@
-<% @_final_config.sort.map do |k,v| -%>
+<% @_sssd_config.sort.map do |k,v|  -%>
 <%   if v.is_a?(Hash)               -%>
 [<%=  k %>]
 <%     v.sort.map do |ki, vi|       -%>

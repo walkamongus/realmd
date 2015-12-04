@@ -5,11 +5,13 @@
 #
 class realmd::sssd::service {
 
-  service { $::realmd::sssd_service_name:
+  $_sssd_service_name = $::realmd::sssd_service_name
+
+  service { $_sssd_service_name:
     ensure     => running,
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
-    subscribe  => File[$::realmd::sssd_config_file],
   }
+
 }
