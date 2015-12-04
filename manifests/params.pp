@@ -7,13 +7,14 @@ class realmd::params {
   case $::osfamily {
     'RedHat', 'Amazon': {
       $realmd_package_name     = 'realmd'
+      $realmd_config_file      = '/etc/realmd.conf'
+      $realmd_config           = {}
       $adcli_package_name      = 'adcli'
       $krb_client_package_name = 'krb5-workstation'
       $sssd_package_name       = 'sssd'
       $sssd_service_name       = 'sssd'
       $sssd_config_file        = '/etc/sssd/sssd.conf'
-      $sssd_config             = {}
-      $sssd_default_config     = {
+      $sssd_config             = {
         'sssd'                  => {
           'config_file_version' => '2',
           'services'            => 'nss,pam',
@@ -26,6 +27,7 @@ class realmd::params {
           'cache_credentials' => true,
         },
       }
+      $manage_sssd_config      = false
       $mkhomedir_package_names = [
         'oddjob',
         'oddjob-mkhomedir',
@@ -35,7 +37,6 @@ class realmd::params {
       $domain_join_password    = undef
       $krb_ticket_join         = false
       $krb_keytab              = undef
-      $krb_initialize_config   = true
       $krb_config_file         = '/etc/krb5.conf'
       $krb_config              = {
         'libdefaults' => {
@@ -45,6 +46,7 @@ class realmd::params {
           'kdc_timesync'     => '0',
         },
       }
+      $manage_krb_config       = true
     }
     default: {
       fail("${::operatingsystem} not supported")

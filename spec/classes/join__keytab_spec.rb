@@ -15,7 +15,7 @@ describe 'realmd' do
             :krb_keytab            => '/tmp/join.keytab',
             :krb_config_file       => '/etc/krb5.conf',
             :domain                => 'example.com',
-            :krb_initialize_config => true,
+            :manage_krb_config     => true,
           }}
 
           it { is_expected.to contain_class('realmd::join::keytab') }
@@ -30,10 +30,10 @@ describe 'realmd' do
           end
 
           it do
-            is_expected.to contain_exec('remove_default_krb_config_file').with({
+            is_expected.to contain_exec('remove_krb_config_file').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
               'command' => 'rm -f /etc/krb5.conf',
-              'onlyif'  => 'grep EXAMPLE.COM /etc/krb5.conf',
+              'onlyif'  => 'test -f /etc/krb5.conf',
             }).that_comes_before('File[krb_configuration]')
           end
 
@@ -87,7 +87,7 @@ describe 'realmd' do
             :krb_keytab            => '/tmp/join.keytab',
             :krb_config_file       => '/etc/krb5.conf',
             :domain                => 'example.com',
-            :krb_initialize_config => true,
+            :manage_krb_config     => true,
             :krb_config            => {
               'libdefaults'  => {
                 'default_realm' => 'EXAMPLE.COM',

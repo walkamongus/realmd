@@ -5,10 +5,12 @@
 #
 class realmd::join::keytab {
 
-  $_domain           = $::realmd::domain
-  $_domain_join_user = $::realmd::domain_join_user
-  $_krb_keytab       = $::realmd::krb_keytab
-  $_krb_config       = $::realmd::krb_config
+  $_domain            = $::realmd::domain
+  $_domain_join_user  = $::realmd::domain_join_user
+  $_krb_keytab        = $::realmd::krb_keytab
+  $_krb_config_file   = $::realmd::krb_config_file
+  $_krb_config        = $::realmd::krb_config
+  $_manage_krb_config = $::realmd::manage_krb_config
 
   file { 'krb_keytab':
     path   => $_krb_keytab,
@@ -18,24 +20,23 @@ class realmd::join::keytab {
     before => Exec['run_kinit_with_keytab'],
   }
 
-  if $::realmd::krb_initialize_config {
-    exec {'remove_default_krb_config_file':
+  if $_manage_krb_config {
+    exec {'remove_krb_config_file':
       path    => '/usr/bin:/usr/sbin:/bin',
-      command => "rm -f ${$::realmd::krb_config_file}",
-      onlyif  => "grep EXAMPLE.COM ${::realmd::krb_config_file}",
+      command => "rm -f ${_krb_config_file}",
+      onlyif  => "test -f ${_krb_config_file}",
       before  => File['krb_configuration'],
     }
 
     file { 'krb_configuration':
       ensure  => present,
-      replace => false,
-      path    => $::realmd::krb_config_file,
+      path    => $_krb_config_file,
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
       content => template('realmd/krb5.conf.erb'),
       before  => Exec['run_kinit_with_keytab'],
-      require => Exec['remove_default_krb_config_file'],
+      require => Exec['remove_krb_config_file'],
     }
   }
 
