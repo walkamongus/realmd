@@ -32,7 +32,7 @@ class realmd::params {
         'oddjob',
         'oddjob-mkhomedir',
       ]
-      $domain                  = undef
+      $domain                  = $::domain
       $domain_join_user        = undef
       $domain_join_password    = undef
       $krb_ticket_join         = false
