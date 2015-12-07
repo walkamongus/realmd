@@ -40,9 +40,4 @@ class realmd (
   class { '::realmd::sssd::config': }~>
   class { '::realmd::sssd::service': }
 
-  contain '::realmd::install'
-  contain '::realmd::config'
-  contain '::realmd::join'
-  contain '::realmd::sssd::config'
-  contain '::realmd::sssd::service'
 }
