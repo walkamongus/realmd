@@ -41,6 +41,14 @@ class realmd (
     fail('Cannot set domain_join_password without domain_join_user')
   }
 
+  if $manage_sssd_config and empty($sssd_config) {
+    fail('The sssd_config parameter cannot be an empty hash when managing the SSSD configuration')
+  }
+
+  if $manage_krb_config and empty($krb_config) {
+    fail('The krb_config parameter cannot be an empty hash when managing the Kerberos client configuration')
+  }
+
   validate_string(
     $realmd_package_name,
     $adcli_package_name,
