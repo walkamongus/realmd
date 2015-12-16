@@ -14,19 +14,7 @@ class realmd::params {
       $sssd_package_name       = 'sssd'
       $sssd_service_name       = 'sssd'
       $sssd_config_file        = '/etc/sssd/sssd.conf'
-      $sssd_config             = {
-        'sssd'                  => {
-          'config_file_version' => '2',
-          'services'            => 'nss,pam',
-          'domains'             => 'LDAP',
-        },
-        'nss'                 => {},
-        'pam'                 => {},
-        'domain/LDAP'         => {
-          'id_provider'       => 'ldap',
-          'cache_credentials' => true,
-        },
-      }
+      $sssd_config             = {}
       $manage_sssd_config      = false
       $mkhomedir_package_names = [
         'oddjob',
