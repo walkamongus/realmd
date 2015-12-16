@@ -9,52 +9,130 @@
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves. This is your 30 second elevator pitch for your module. Consider including OS/Puppet version it works with.       
+This module installs and configures Realmd and joins a domain. It will also optionally control the Kerberos client and SSSD configuration files and the SSSD service.
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology the module integrates with and what that integration enables. This section should answer the questions: "What does this module *do*?" and "Why would I use it?"
+Realmd is a high-level tool for discovering and joining domains. It provides automatic base configuration of SSSD, nsswitch settings, and PAM configuration changes necessary for a Linux client to participate in an Active Directory domain.
 
-If your module has a range of functionality (installation, configuration, management, etc.) this is the time to mention it.
+This module will install the necessary Realmd packages and dependencies, configure Realmd, and join an Active Directory domain via one of two methods:
+
+* Username and password
+* Kerberos keytab file
+
+It also optionaly manages the contents of the Kerberos client configuration and SSSD configuration files.
 
 ## Setup
 
 ### What realmd affects
 
-* A list of files, packages, services, or operations that the module will alter, impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form. 
+* Packages
+    * realmd
+    * adcli
+    * sssd
+    * krb5-workstation
+    * oddjob
+    * oddjob-mkhomedir
+* Files
+    * /etc/realmd.conf
+    * /etc/sssd/sssd.conf
+    * /etc/krb5.conf
+* Services
+    * sssd
+* Execs
+    * for username and password joins
+        * the `realm join` command is run with supplied credentials
+    * for keytab joins
+        * the kerberos config file (/etc/krb5.conf) will be placed on disk
+        * the `kinit` command is run to obtain an initial TGT
+        * the `realm join` command is run to join via keytab
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
-If your module requires anything extra before setting up (pluginsync enabled, etc.), mention it here. 
+* Keytabs
+    * this module does not manage keytabs -- the `krb_keytab` parameter is an absolute path to a keytab deployed in some way outside of this module
 
 ### Beginning with realmd
 
-The very basic steps needed for a user to get the module up and running. 
+Setup realmd and join an Active Directory domain via username and password:
 
-If your most recent release breaks compatibility or requires particular steps for upgrading, you may wish to include an additional section here: Upgrading (For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+    class { '::realmd':
+      domain               => 'example.com',
+      domain_join_user     => 'user',
+      domain_join_password => 'password',
+    }
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing the fancy stuff with your module here. 
+Set up Realmd, join an Active Directory domain via a keytab and fully configure SSSD:
+
+    class { '::realmd':
+      domain             => $::domain,
+      domain_join_user   => 'user',
+      krb_ticket_join    => true,
+      krb_keytab         => '/tmp/keytab',
+      manage_sssd_config => true,
+      sssd_config        => {
+        'sssd' => {
+          'domains'             => $::domain,
+          'config_file_version' => '2',
+          'services'            => 'nss,pam',
+        },
+        "domain/${::domain}" => {
+          'ad_domain'                      => $::domain,
+          'krb5_realm'                     => upcase($::domain),
+          'realmd_tags'                    => 'manages-system joined-with-adcli',
+          'cache_credentials'              => 'True',
+          'id_provider'                    => 'ad',
+          'access_provider'                => 'ad',
+          'krb5_store_password_if_offline' => 'True',
+          'default_shell'                  => '/bin/bash',
+          'ldap_id_mapping'                => 'True',
+          'fallback_homedir'               => '/home/%u',
+        },
+      },
+    }
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module. This section should include all of the under-the-hood workings of your module so people know what the module is touching on their system but don't need to mess with things. (We are working on automating this section!)
+###Parameters
+
+Default values are in params.pp.
+
+* `realmd_package_name`: String. The name of the main Realmd package.
+* `realmd_config_file`: String. The absolute path of the Realmd configuration file.
+* `realmd_config`: Hash. A hash of configuration options structured in an ini-style format.
+* `adcli_package_name`: String. The name of the adcli package
+* `krb_client_package_name`: String. The name of the Kerberos client package.
+* `sssd_package_name`: String. The name of the main SSSD package.
+* `sssd_service_name`: String. The name of the SSSD service.
+* `sssd_config_file`: String. The absolute path of the SSSD configuration file.
+* `sssd_config`: Hash. A hash of configuration options structured in an ini-style format.
+* `manage_sssd_config`: Boolean. Enable or disable management of the SSSD configuration file.
+* `mkhomedir_package_names`: Array. A list of package names required for the "mkhomedir" functionality.
+* `domain`: String. The name of the domain to join.
+* `domain_join_user`: String. The account to be used in joining the domain.
+* `domain_join_password`: String. The password of the account to be used in joining the domain.
+* `krb_ticket_join`: Boolean. Enable of disable joining the domain via a Kerberos keytab.
+* `krb_keytab`: String. The absolute path to the Kerberos keytab file to be used in joining the domain.
+* `krb_config_file`: String. The absolute path to the Kerberos client configuration file.
+* `krb_config`: Hash. A hash of configuration options structured in an ini-style format.
+* `manage_krb_config`: Boolean. Enable or disable management of the Kerberos client configuration file.
+
+###Classes
+* realmd::params
+* realmd::istall
+* realmd::config
+* realmd::join
+* realmd::join::password
+* realmd::join::keytab
+* realmd::sssd::config
+* realmd::sssd::service
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+This module requires Puppet >= 3.4.0 or Puppet Enterprise >= 3.2 due to it's use of the `contain` function. It has only been tested on RHEL/CentOS 7.
 
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You may also add any additional sections you feel are necessary or important to include here. Please use the `## ` header. 
