@@ -15,4 +15,21 @@ class realmd::config {
     content => template('realmd/realmd.conf.erb'),
   }
 
+  if $::osfamily == "Debian" {
+    file { '/usr/share/pam-configs/realmd_mkhomedir':
+      ensure => file,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => 'puppet:///modules/realmd/realmd_mkhomedir',
+      notify => Exec['realm-pam-auth-update'],
+    }
+
+    exec { 'realm-pam-auth-update':
+      command     => '/usr/sbin/pam-auth-update --package',
+      refreshonly => true,
+    }
+
+  }
+
 }

@@ -30,16 +30,28 @@ It also optionaly manages the contents of the Kerberos client configuration and 
 ### What realmd affects
 
 * Packages
-    * realmd
-    * adcli
-    * sssd
-    * krb5-workstation
-    * oddjob
-    * oddjob-mkhomedir
+    * Redhat Family
+        * realmd
+        * adcli
+        * sssd
+        * krb5-workstation
+        * oddjob
+        * oddjob-mkhomedir
+    * Debian Family
+        * adcli
+        * krb5-user
+        * sssd
+        * sssd-tools
+        * samba-common-bin
+        * samba
+        * libpam-modules
+        * libpam-sss
+        * libnss-sss
 * Files
     * /etc/realmd.conf
     * /etc/sssd/sssd.conf
     * /etc/krb5.conf
+    * /usr/share/pam-configs/realmd_mkhomedir (Debian Family)
 * Services
     * sssd
 * Execs
@@ -49,6 +61,8 @@ It also optionaly manages the contents of the Kerberos client configuration and 
         * the kerberos config file (/etc/krb5.conf) will be placed on disk
         * the `kinit` command is run to obtain an initial TGT
         * the `realm join` command is run to join via keytab
+    * For Debian Family
+        * triggers a pam-auth-update to activate the mkhomedir
 
 ### Setup Requirements
 
@@ -134,5 +148,4 @@ Default values are in params.pp.
 
 ## Limitations
 
-This module requires Puppet >= 3.4.0 or Puppet Enterprise >= 3.2 due to it's use of the `contain` function. It has only been tested on RHEL/CentOS 7.
-
+This module requires Puppet >= 3.4.0 or Puppet Enterprise >= 3.2 due to it's use of the `contain` function. It has only been tested on RHEL/CentOS 7 and Debian Jessie 8
