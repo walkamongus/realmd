@@ -1,2 +1,6 @@
+2016-05-24 Release 0.1.2
+- Force rebuilding of SSSD config cache on each configuration change
+2015-12-16 Release 0.1.1
+- null release
 2015-12-16 Release 0.1.0
 - initial release
