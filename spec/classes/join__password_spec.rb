@@ -19,10 +19,9 @@ describe 'realmd' do
 
           it do
             is_expected.to contain_exec('realm_join_with_password').with({
-              'path'        => '/usr/bin:/usr/sbin:/bin',
-              'command'     => 'echo \'password\' | realm join example.com --unattended --user=user',
-              'unless'      => 'realm list --name-only | grep example.com',
-              'refreshonly' => 'true',
+              'path'    => '/usr/bin:/usr/sbin:/bin',
+              'command' => 'echo \'password\' | realm join example.com --unattended --user=user',
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
           end
         end

@@ -59,28 +59,27 @@ describe 'realmd' do
               'path'        => '/usr/bin:/usr/sbin:/bin',
               'command'     => 'kinit -kt /tmp/join.keytab user',
               'refreshonly' => 'true',
-            }).that_comes_before('Exec[run_realm_join_with_keytab]')
+            }).that_comes_before('Exec[realm_join_with_keytab]')
           end
 
           it do
-            is_expected.to contain_exec('run_realm_join_with_keytab').with({
-              'path'        => '/usr/bin:/usr/sbin:/bin',
-              'command'     => 'realm join example.com',
-              'unless'      => 'realm list --name-only | grep example.com',
-              'refreshonly' => 'true',
+            is_expected.to contain_exec('realm_join_with_keytab').with({
+              'path'    => '/usr/bin:/usr/sbin:/bin',
+              'command' => 'realm join example.com',
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
           end
         end
 
         context "realmd::join::keytab class with custom krb_config" do
           let(:params) {{ 
-            :krb_ticket_join       => true,
-            :domain_join_user      => 'user',
-            :krb_keytab            => '/tmp/join.keytab',
-            :krb_config_file       => '/etc/krb5.conf',
-            :domain                => 'example.com',
-            :manage_krb_config     => true,
-            :krb_config            => {
+            :krb_ticket_join   => true,
+            :domain_join_user  => 'user',
+            :krb_keytab        => '/tmp/join.keytab',
+            :krb_config_file   => '/etc/krb5.conf',
+            :domain            => 'example.com',
+            :manage_krb_config => true,
+            :krb_config        => {
               'libdefaults'  => {
                 'default_realm' => 'EXAMPLE.COM',
               },
