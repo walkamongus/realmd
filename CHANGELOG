@@ -1,3 +1,5 @@
+2016-05-24 Release 0.1.3
+- Add more robust check of domain membership and attempt to join domain if check fails
 2016-05-24 Release 0.1.2
 - Force rebuilding of SSSD config cache on each configuration change
 2015-12-16 Release 0.1.1
