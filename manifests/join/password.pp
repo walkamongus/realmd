@@ -10,9 +10,9 @@ class realmd::join::password {
   $_password  = $::realmd::domain_join_password
 
   exec { 'realm_join_with_password':
-    path        => '/usr/bin:/usr/sbin:/bin',
-    command     => "echo '${_password}' | realm join ${_domain} --unattended --user=${_user}",
-    unless      => "klist -k /etc/krb5.keytab | grep -i '${::hostname}@${_domain}'",
+    path    => '/usr/bin:/usr/sbin:/bin',
+    command => "echo '${_password}' | realm join ${_domain} --unattended --user=${_user}",
+    unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname}@${_domain}'",
   }
 
 }
