@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/walkamongus/realmd.svg?branch=master)](https://travis-ci.org/walkamongus/realmd)
+
 #### Table of Contents
 
 1. [Overview](#overview)
