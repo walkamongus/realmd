@@ -11,11 +11,13 @@ describe 'realmd' do
         context "realmd::config class with default parameters" do
           let(:params) {{ }}
 
-          it { should contain_file('/etc/realmd.conf').with({
+          it do
+            should contain_file('/etc/realmd.conf').with({
 	          :owner => 'root',
 	          :group => 'root',
 	          :mode  => '0640',
-          }) }
+          })
+          end
         end
       end
     end

@@ -12,10 +12,13 @@ describe 'realmd' do
           let(:params) {{ }}
 
           it { is_expected.to contain_class('realmd::sssd::service') }
-          it { is_expected.to contain_service('sssd').with(
-            :ensure     => 'running',
-            :enable     => true,
-          )}
+
+          it do
+            is_expected.to contain_service('sssd').with(
+              :ensure     => 'running',
+              :enable     => true,
+            )
+          end
         end
       end
     end

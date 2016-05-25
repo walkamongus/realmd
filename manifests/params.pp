@@ -14,6 +14,7 @@ class realmd::params {
       $sssd_package_name       = 'sssd'
       $sssd_service_name       = 'sssd'
       $sssd_config_file        = '/etc/sssd/sssd.conf'
+      $sssd_config_cache_file  = '/var/lib/sss/db/config.ldb'
       $sssd_config             = {}
       $manage_sssd_config      = false
       $mkhomedir_package_names = [

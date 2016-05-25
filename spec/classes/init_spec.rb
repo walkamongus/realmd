@@ -27,10 +27,12 @@ describe 'realmd' do
 
   context 'unsupported operating system' do
     describe 'realmd class without any parameters on Solaris/Nexenta' do
-      let(:facts) {{
-        :osfamily        => 'Solaris',
-        :operatingsystem => 'Nexenta',
-      }}
+      let(:facts) do
+        {
+          :osfamily        => 'Solaris',
+          :operatingsystem => 'Nexenta',
+        }
+      end
 
       it { expect { is_expected.to contain_package('realmd') }.to raise_error(Puppet::Error, /Nexenta not supported/) }
     end

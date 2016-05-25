@@ -22,7 +22,7 @@ class realmd::join::keytab {
 
   if $_manage_krb_config {
     file { 'krb_configuration':
-      ensure  => present,
+      ensure  => file,
       path    => $_krb_config_file,
       owner   => 'root',
       group   => 'root',
@@ -36,15 +36,14 @@ class realmd::join::keytab {
     path        => '/usr/bin:/usr/sbin:/bin',
     command     => "kinit -kt ${_krb_keytab} ${_domain_join_user}",
     refreshonly => true,
-    before      => Exec['run_realm_join_with_keytab'],
+    before      => Exec['realm_join_with_keytab'],
   }
 
-  exec { 'run_realm_join_with_keytab':
-    path        => '/usr/bin:/usr/sbin:/bin',
-    command     => "realm join ${_domain}",
-    unless      => "realm list --name-only | grep ${_domain}",
-    refreshonly => true,
-    require     => Exec['run_kinit_with_keytab'],
+  exec { 'realm_join_with_keytab':
+    path    => '/usr/bin:/usr/sbin:/bin',
+    command => "realm join ${_domain}",
+    unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname}@${_domain}'",
+    require => Exec['run_kinit_with_keytab'],
   }
 
 }

@@ -12,6 +12,12 @@ class realmd::sssd::config {
       owner   => 'root',
       group   => 'root',
       mode    => '0600',
+      notify  => Exec['force_config_cache_rebuild'],
+    }
+
+    exec { 'force_config_cache_rebuild':
+      command     => "/usr/bin/rm -f ${::realmd::sssd_config_cache_file}",
+      refreshonly => true,
     }
   }
 

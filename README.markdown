@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/walkamongus/realmd.svg?branch=master)](https://travis-ci.org/walkamongus/realmd)
+
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -63,6 +65,7 @@ It also optionaly manages the contents of the Kerberos client configuration and 
         * the `realm join` command is run to join via keytab
     * For Debian Family
         * triggers a pam-auth-update to activate the mkhomedir
+    * the SSSD config cache is forcibly removed on each config change to ensure cache is rebuilt
 
 ### Setup Requirements
 

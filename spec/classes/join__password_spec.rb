@@ -9,20 +9,21 @@ describe 'realmd' do
         end
 
         context "realmd::join::password class" do
-          let(:params) {{ 
-            :domain_join_user     => 'user',
-            :domain_join_password => 'password',
-            :domain               => 'example.com',
-          }}
+          let(:params) do
+            {
+              :domain_join_user     => 'user',
+              :domain_join_password => 'password',
+              :domain               => 'example.com',
+            }
+          end
 
           it { is_expected.to contain_class('realmd::join::password') }
 
           it do
             is_expected.to contain_exec('realm_join_with_password').with({
-              'path'        => '/usr/bin:/usr/sbin:/bin',
-              'command'     => 'echo \'password\' | realm join example.com --unattended --user=user',
-              'unless'      => 'realm list --name-only | grep example.com',
-              'refreshonly' => 'true',
+              'path'    => '/usr/bin:/usr/sbin:/bin',
+              'command' => 'echo \'password\' | realm join example.com --unattended --user=user',
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
           end
         end

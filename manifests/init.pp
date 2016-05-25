@@ -19,6 +19,7 @@ class realmd (
   $sssd_package_name       = $::realmd::params::sssd_package_name,
   $sssd_service_name       = $::realmd::params::sssd_service_name,
   $sssd_config_file        = $::realmd::params::sssd_config_file,
+  $sssd_config_cache_file  = $::realmd::params::sssd_config_cache_file,
   $sssd_config             = $::realmd::params::sssd_config,
   $manage_sssd_config      = $::realmd::params::manage_sssd_config,
   $mkhomedir_package_names = $::realmd::params::mkhomedir_package_names,
