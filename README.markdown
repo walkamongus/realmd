@@ -25,7 +25,7 @@ This module will install the necessary Realmd packages and dependencies, configu
 * Username and password
 * Kerberos keytab file
 
-It also optionaly manages the contents of the Kerberos client configuration and SSSD configuration files.
+It also optionally manages the contents of the Kerberos client configuration and SSSD configuration files.
 
 ## Setup
 
