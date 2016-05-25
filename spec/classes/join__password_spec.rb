@@ -9,11 +9,13 @@ describe 'realmd' do
         end
 
         context "realmd::join::password class" do
-          let(:params) {{ 
-            :domain_join_user     => 'user',
-            :domain_join_password => 'password',
-            :domain               => 'example.com',
-          }}
+          let(:params) do
+            {
+              :domain_join_user     => 'user',
+              :domain_join_password => 'password',
+              :domain               => 'example.com',
+            }
+          end
 
           it { is_expected.to contain_class('realmd::join::password') }
 

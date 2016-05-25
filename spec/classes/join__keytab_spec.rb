@@ -9,14 +9,16 @@ describe 'realmd' do
         end
 
         context "realmd::join::keytab class with default krb_config" do
-          let(:params) {{ 
-            :krb_ticket_join       => true,
-            :domain_join_user      => 'user',
-            :krb_keytab            => '/tmp/join.keytab',
-            :krb_config_file       => '/etc/krb5.conf',
-            :domain                => 'example.com',
-            :manage_krb_config     => true,
-          }}
+          let(:params) do
+            {
+              :krb_ticket_join       => true,
+              :domain_join_user      => 'user',
+              :krb_keytab            => '/tmp/join.keytab',
+              :krb_config_file       => '/etc/krb5.conf',
+              :domain                => 'example.com',
+              :manage_krb_config     => true,
+            }
+          end
 
           it { is_expected.to contain_class('realmd::join::keytab') }
 
@@ -38,21 +40,29 @@ describe 'realmd' do
             }).that_comes_before('Exec[run_kinit_with_keytab]')
           end
 
-          it { should contain_file('krb_configuration').with_content(
-            /\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n/
-          )}
+          it do
+            should contain_file('krb_configuration').with_content(
+              /\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n/
+            )
+          end
 
-          it { should contain_file('krb_configuration').with_content(
-            /dns_lookup_realm = true\n/
-          )}
+          it do
+            should contain_file('krb_configuration').with_content(
+              /dns_lookup_realm = true\n/
+            )
+          end
 
-          it { should contain_file('krb_configuration').with_content(
-            /dns_lookup_kdc = true\n/
-          )}
+          it do
+            should contain_file('krb_configuration').with_content(
+              /dns_lookup_kdc = true\n/
+            )
+          end
 
-          it { should contain_file('krb_configuration').with_content(
-            /kdc_timesync = 0\n/
-          )}
+          it do
+            should contain_file('krb_configuration').with_content(
+              /kdc_timesync = 0\n/
+            )
+          end
 
           it do
             is_expected.to contain_exec('run_kinit_with_keytab').with({
@@ -72,43 +82,49 @@ describe 'realmd' do
         end
 
         context "realmd::join::keytab class with custom krb_config" do
-          let(:params) {{ 
-            :krb_ticket_join   => true,
-            :domain_join_user  => 'user',
-            :krb_keytab        => '/tmp/join.keytab',
-            :krb_config_file   => '/etc/krb5.conf',
-            :domain            => 'example.com',
-            :manage_krb_config => true,
-            :krb_config        => {
-              'libdefaults'  => {
-                'default_realm' => 'EXAMPLE.COM',
-              },
-              'domain_realm' => {
-                'localhost.example.com' => 'EXAMPLE.COM',
-              },
-              'realms'       => {
-                'EXAMPLE.COM' => {
-                  'kdc' => 'dc.example.com:88',
+          let(:params) do
+            {
+              :krb_ticket_join   => true,
+              :domain_join_user  => 'user',
+              :krb_keytab        => '/tmp/join.keytab',
+              :krb_config_file   => '/etc/krb5.conf',
+              :domain            => 'example.com',
+              :manage_krb_config => true,
+              :krb_config        => {
+                'libdefaults' => {
+                  'default_realm' => 'EXAMPLE.COM',
                 },
-              },
+                'domain_realm' => {
+                  'localhost.example.com' => 'EXAMPLE.COM',
+                },
+                'realms' => {
+                  'EXAMPLE.COM' => {
+                    'kdc' => 'dc.example.com:88',
+                  },
+                },
+              }
             }
-          }}
+          end
 
           it { is_expected.to contain_class('realmd::join::keytab') }
 
+          it do
+            should contain_file('krb_configuration').with_content(
+              /\[domain_realm\]\nlocalhost.example.com = EXAMPLE.COM\n/
+            )
+          end
 
-          it { should contain_file('krb_configuration').with_content(
-            /\[domain_realm\]\nlocalhost.example.com = EXAMPLE.COM\n/
-          )}
+          it do
+            should contain_file('krb_configuration').with_content(
+              /\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n/
+            )
+          end
 
-          it { should contain_file('krb_configuration').with_content(
-            /\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n/
-          )}
-
-          it { should contain_file('krb_configuration').with_content(
-            /\[realms\]\nEXAMPLE.COM = {\n  kdc = dc.example.com:88\n/
-          )}
-
+          it do
+            should contain_file('krb_configuration').with_content(
+              /\[realms\]\nEXAMPLE.COM = {\n  kdc = dc.example.com:88\n/
+            )
+          end
         end
       end
     end

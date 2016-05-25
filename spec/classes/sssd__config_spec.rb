@@ -9,22 +9,24 @@ describe 'realmd' do
         end
 
         context "realmd::sssd::config class with custom config" do
-          let(:params) {{
-            :manage_sssd_config => true,
-            :sssd_config        => {
-              'sssd' => {
-                'domains'             => 'example.com',
-                'config_file_version' => '2',
-                'services'            => 'nss,pam',
-              },
-              'domain/example.com' => {
-                'ad_domain'                      => 'example.com',
-                'krb5_realm'                     => 'EXAMPLE.COM',
-                'id_provider'                    => 'ad',
-                'access_provider'                => 'ad',
-              },
+          let(:params) do
+            {
+              :manage_sssd_config => true,
+              :sssd_config        => {
+                'sssd' => {
+                  'domains'             => 'example.com',
+                  'config_file_version' => '2',
+                  'services'            => 'nss,pam',
+                },
+                'domain/example.com' => {
+                  'ad_domain'                      => 'example.com',
+                  'krb5_realm'                     => 'EXAMPLE.COM',
+                  'id_provider'                    => 'ad',
+                  'access_provider'                => 'ad',
+                },
+              }
             }
-          }}
+          end
 
           it do
             should contain_file('/etc/sssd/sssd.conf').with({
