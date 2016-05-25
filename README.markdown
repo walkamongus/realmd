@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/walkamongus/realmd.svg?branch=master)](https://travis-ci.org/walkamongus/realmd)
+
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -49,6 +51,7 @@ It also optionaly manages the contents of the Kerberos client configuration and 
         * the kerberos config file (/etc/krb5.conf) will be placed on disk
         * the `kinit` command is run to obtain an initial TGT
         * the `realm join` command is run to join via keytab
+    * the SSSD config cache is forcibly removed on each config change to ensure cache is rebuilt
 
 ### Setup Requirements
 

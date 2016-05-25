@@ -8,7 +8,7 @@ class realmd::config {
   $_realmd_config_file = $::realmd::realmd_config_file
 
   file { $_realmd_config_file:
-    ensure  => present,
+    ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0640',

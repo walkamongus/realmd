@@ -22,7 +22,7 @@ exclude_paths = [
   "bundle/**/*",
   "pkg/**/*",
   "vendor/**/*",
-  "spec/**/*",
+  "spec/**/*"
 ]
 
 # Coverage from puppetlabs-spec-helper requires rcov which
@@ -59,5 +59,5 @@ task :test => [
   :syntax,
   :lint,
   :rubocop,
-  :spec,
+  :spec
 ]
