@@ -8,7 +8,7 @@ class realmd::join::password {
   $_domain    = $::realmd::domain
   $_user      = $::realmd::domain_join_user
   $_password  = $::realmd::domain_join_password
-  $_join_args = $::raalmd::domain_join_args
+  $_join_args = $::realmd::domain_join_args
 
   exec { 'realm_join_with_password':
     path    => '/usr/bin:/usr/sbin:/bin',
