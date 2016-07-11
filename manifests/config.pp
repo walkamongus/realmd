@@ -31,7 +31,7 @@ class realmd::config {
         refreshonly => true,
       }
 
-    },
+    }
     'Redhat': {
       exec { 'authconfig --enablekrb5 --enablesssd --updateall':
         refreshonly => true,
