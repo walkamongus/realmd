@@ -9,10 +9,11 @@ class realmd::install {
     $::realmd::krb_client_package_name,
     $::realmd::sssd_package_name,
     $::realmd::mkhomedir_package_names,
+    $::realmd::krb_pam_package_name,
   ]
   $_packages = flatten($_package_list)
 
   package { $_packages:
-    ensure => present,
+    ensure => latest,
   }
 }

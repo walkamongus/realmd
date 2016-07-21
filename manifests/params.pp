@@ -16,6 +16,7 @@ class realmd::params {
       $sssd_config_file        = '/etc/sssd/sssd.conf'
       $sssd_config_cache_file  = '/var/lib/sss/db/config.ldb'
       $sssd_config             = {}
+      $krb_pam_package_name    = "pam_krb5"
       $manage_sssd_config      = false
       $mkhomedir_package_names = [
         'oddjob',
@@ -24,6 +25,7 @@ class realmd::params {
       $domain                  = $::domain
       $domain_join_user        = undef
       $domain_join_password    = undef
+      $domain_join_args        = ''
       $krb_ticket_join         = false
       $krb_keytab              = undef
       $krb_config_file         = '/etc/krb5.conf'

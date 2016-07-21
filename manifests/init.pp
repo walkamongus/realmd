@@ -26,10 +26,12 @@ class realmd (
   $domain                  = $::realmd::params::domain,
   $domain_join_user        = $::realmd::params::domain_join_user,
   $domain_join_password    = $::realmd::params::domain_join_password,
+  $domain_join_args        = $::realmd::params::domain_join_args,
   $krb_ticket_join         = $::realmd::params::krb_ticket_join,
   $krb_keytab              = $::realmd::params::krb_keytab,
   $krb_config_file         = $::realmd::params::krb_config_file,
   $krb_config              = $::realmd::params::krb_config,
+  $krb_pam_package_name    = $::realmd::params::krb_pam_package_name,
   $manage_krb_config       = $::realmd::params::manage_krb_config,
 ) inherits ::realmd::params {
 
