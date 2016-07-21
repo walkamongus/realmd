@@ -14,6 +14,6 @@ class realmd::install {
   $_packages = flatten($_package_list)
 
   package { $_packages:
-    ensure => present,
+    ensure => latest,
   }
 }
