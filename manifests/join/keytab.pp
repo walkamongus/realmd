@@ -42,7 +42,7 @@ class realmd::join::keytab {
   exec { 'realm_join_with_keytab':
     path    => '/usr/bin:/usr/sbin:/bin',
     command => "realm join ${_domain}",
-    unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname}@${_domain}'",
+    unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
     require => Exec['run_kinit_with_keytab'],
   }
 
