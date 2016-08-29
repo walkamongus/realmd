@@ -16,7 +16,8 @@ class realmd::sssd::config {
     }
 
     exec { 'force_config_cache_rebuild':
-      command     => "/usr/bin/rm -f ${::realmd::sssd_config_cache_file}",
+      path        => '/usr/bin:/usr/sbin:/bin',
+      command     => "rm -f ${::realmd::sssd_config_cache_file}",
       refreshonly => true,
     }
   }
