@@ -44,7 +44,8 @@ describe 'realmd' do
 
           it do
             should contain_exec('force_config_cache_rebuild').with({
-              'command'     => '/usr/bin/rm -f /var/lib/sss/db/config.ldb',
+              'path'        => '/usr/bin:/usr/sbin:/bin',
+              'command'     => 'rm -f /var/lib/sss/db/config.ldb',
               'refreshonly' => true,
             })
           end
