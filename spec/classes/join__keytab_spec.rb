@@ -28,7 +28,7 @@ describe 'realmd' do
               'owner' => 'root',
               'group' => 'root',
               'mode'  => '0400',
-            }).that_comes_before('Exec[run_kinit_with_keytab]')
+            }).that_notifies('Exec[run_kinit_with_keytab]')
           end
 
           it do
@@ -37,7 +37,7 @@ describe 'realmd' do
               'owner' => 'root',
               'group' => 'root',
               'mode'  => '0644',
-            }).that_comes_before('Exec[run_kinit_with_keytab]')
+            }).that_notifies('Exec[run_kinit_with_keytab]')
           end
 
           it do
