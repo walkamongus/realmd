@@ -17,7 +17,7 @@ class realmd::join::keytab {
     owner  => 'root',
     group  => 'root',
     mode   => '0400',
-    before => Exec['run_kinit_with_keytab'],
+    notify => Exec['run_kinit_with_keytab'],
   }
 
   if $_manage_krb_config {
@@ -28,7 +28,7 @@ class realmd::join::keytab {
       group   => 'root',
       mode    => '0644',
       content => template('realmd/krb5.conf.erb'),
-      before  => Exec['run_kinit_with_keytab'],
+      notify  => Exec['run_kinit_with_keytab'],
     }
   }
 
