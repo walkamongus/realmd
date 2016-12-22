@@ -9,6 +9,7 @@ class realmd::install {
     $::realmd::krb_client_package_name,
     $::realmd::sssd_package_name,
     $::realmd::mkhomedir_package_names,
+    $::realmd::samba_common_tools_package_name,
   ]
   $_packages = flatten($_package_list)
 
