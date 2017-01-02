@@ -21,7 +21,7 @@ class realmd::params {
         'oddjob',
         'oddjob-mkhomedir',
       ]
-      $samba_common_tools_package_name = 'samba_common_tools'
+      $extra_packages                  = []
       $domain                          = $::domain
       $domain_join_user                = undef
       $domain_join_password            = undef

@@ -23,7 +23,7 @@ class realmd (
   $sssd_config                     = $::realmd::params::sssd_config,
   $manage_sssd_config              = $::realmd::params::manage_sssd_config,
   $mkhomedir_package_names         = $::realmd::params::mkhomedir_package_names,
-  $samba_common_tools_package_name = $::realmd::params::samba_common_tools_package_name,
+  $extra_packages                  = $::realmd::params::extra_packages,
   $domain                          = $::realmd::params::domain,
   $domain_join_user                = $::realmd::params::domain_join_user,
   $domain_join_password            = $::realmd::params::domain_join_password,
@@ -60,7 +60,6 @@ class realmd (
     $domain,
     $domain_join_user,
     $domain_join_password,
-    $samba_common_tools_package_name,
   )
 
   validate_absolute_path(
