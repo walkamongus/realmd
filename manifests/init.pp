@@ -33,6 +33,7 @@ class realmd (
   $krb_config              = $::realmd::params::krb_config,
   $krb_pam_package_name    = $::realmd::params::krb_pam_package_name,
   $manage_krb_config       = $::realmd::params::manage_krb_config,
+  $permits                 = $::realmd::params::permits,
 ) inherits ::realmd::params {
 
   if $krb_ticket_join == false {
@@ -92,5 +93,9 @@ class realmd (
   class { '::realmd::join': } ->
   class { '::realmd::sssd::config': }~>
   class { '::realmd::sssd::service': }
+
+  if $permits {
+    create_resources('realmd::permit', $permits)
+  }
 
 }

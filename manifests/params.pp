@@ -16,8 +16,9 @@ class realmd::params {
       $sssd_config_file        = '/etc/sssd/sssd.conf'
       $sssd_config_cache_file  = '/var/lib/sss/db/config.ldb'
       $sssd_config             = {}
-      $krb_pam_package_name    = "pam_krb5"
+      $krb_pam_package_name    = 'pam_krb5'
       $manage_sssd_config      = false
+      $permits                 = {}
       $mkhomedir_package_names = [
         'oddjob',
         'oddjob-mkhomedir',
