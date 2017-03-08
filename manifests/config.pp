@@ -32,4 +32,6 @@ class realmd::config {
 
   }
 
+  contain '::realmd::krb::config'
+
 }

@@ -20,18 +20,6 @@ class realmd::join::keytab {
     notify => Exec['run_kinit_with_keytab'],
   }
 
-  if $_manage_krb_config {
-    file { 'krb_configuration':
-      ensure  => file,
-      path    => $_krb_config_file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      content => template('realmd/krb5.conf.erb'),
-      notify  => Exec['run_kinit_with_keytab'],
-    }
-  }
-
   exec { 'run_kinit_with_keytab':
     path        => '/usr/bin:/usr/sbin:/bin',
     command     => "kinit -kt ${_krb_keytab} ${_domain_join_user}",
