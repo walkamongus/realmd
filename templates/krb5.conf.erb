@@ -1,4 +1,4 @@
-<% @_krb_config.sort.map do |k,v|     -%>
+<% @_krb_config.map do |k,v|          -%>
 <%   if v.is_a?(Hash)                 -%>
 [<%=   k %>]
 <%     v.sort.map do |ki, vi|         -%>
