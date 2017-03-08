@@ -3,15 +3,15 @@
 [<%=   k %>]
 <%     v.sort.map do |ki, vi|         -%>
 <%       if vi.is_a?(Array)           -%>
-<%=        ki %> = <%= vi.join(',')   -%>
+  <%=        ki %> = <%= vi.join(',') -%>
 <%       elsif vi.is_a?(Hash)         -%>
 <%=        ki %> = {
 <%           vi.sort.map do |kii, vii|-%>
-  <%=          kii %> = <%= vii %>
+    <%=          kii %> = <%= vii %>
 <%           end                      -%>
 }
 <%       elsif vi != :undef           -%>
-<%=        ki %> = <%= vi %>
+  <%=        ki %> = <%= vi %>
 <%       end                          -%>
 <%     end                            -%>
 <%   elsif k == 'include'             -%>
