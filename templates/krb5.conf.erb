@@ -1,22 +1,28 @@
 <% @_krb_config.map do |k,v|          -%>
 <%   if v.is_a?(Hash)                 -%>
+
 [<%=   k %>]
 <%     v.sort.map do |ki, vi|         -%>
 <%       if vi.is_a?(Array)           -%>
   <%=        ki %> = <%= vi.join(',') -%>
 <%       elsif vi.is_a?(Hash)         -%>
-<%=        ki %> = {
+  <%=        ki %> = {
 <%           vi.sort.map do |kii, vii|-%>
     <%=          kii %> = <%= vii %>
 <%           end                      -%>
-}
+  }
 <%       elsif vi != :undef           -%>
   <%=        ki %> = <%= vi %>
 <%       end                          -%>
 <%     end                            -%>
 <%   elsif k == 'include'             -%>
+
 include <%= v %>
+<%   elsif k == 'includedir'             -%>
+
+includedir <%= v %>
 <%   else                             -%>
+
 [<%=   k %>]
 <%   end                              -%>
 <% end                                -%>
