@@ -31,6 +31,7 @@ class realmd (
   $krb_config_file         = $::realmd::params::krb_config_file,
   $krb_config              = $::realmd::params::krb_config,
   $manage_krb_config       = $::realmd::params::manage_krb_config,
+  $init_style              = $::realmd::params::init_style,
 ) inherits ::realmd::params {
 
   if $krb_ticket_join == false {
@@ -85,10 +86,10 @@ class realmd (
 
   if $krb_keytab { validate_absolute_path($krb_keytab) }
 
-  class { '::realmd::install': } ->
-  class { '::realmd::config': } ~>
-  class { '::realmd::join': } ->
-  class { '::realmd::sssd::config': }~>
-  class { '::realmd::sssd::service': }
+  class { '::realmd::install': }
+  -> class { '::realmd::config': }
+  ~> class { '::realmd::join': }
+  -> class { '::realmd::sssd::config': }
+  ~> class { '::realmd::sssd::service': }
 
 }

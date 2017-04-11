@@ -12,6 +12,7 @@ class realmd::sssd::service {
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
+    provider   => $::realmd::init_style,
   }
 
 }
