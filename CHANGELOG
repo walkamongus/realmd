@@ -1,3 +1,5 @@
+2017-05-17 Release 0.1.4
+- Add support for OU paramter
 2016-05-24 Release 0.1.3
 - Add more robust check of domain membership and attempt to join domain if check fails
 2016-05-24 Release 0.1.2

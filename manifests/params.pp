@@ -24,6 +24,7 @@ class realmd::params {
       $domain                  = $::domain
       $domain_join_user        = undef
       $domain_join_password    = undef
+      $ou                      = undef
       $krb_ticket_join         = false
       $krb_keytab              = undef
       $krb_config_file         = '/etc/krb5.conf'
@@ -62,6 +63,7 @@ class realmd::params {
       $domain                  = $::domain
       $domain_join_user        = undef
       $domain_join_password    = undef
+      $ou                      = undef
       $krb_ticket_join         = false
       $krb_keytab              = undef
       $krb_config_file         = '/etc/krb5.conf'
