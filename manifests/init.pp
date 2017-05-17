@@ -17,6 +17,7 @@ class realmd (
   $adcli_package_name      = $::realmd::params::adcli_package_name,
   $krb_client_package_name = $::realmd::params::krb_client_package_name,
   $sssd_package_name       = $::realmd::params::sssd_package_name,
+  $samba_package_name      = $::realmd::params::samba_package_name,
   $sssd_service_name       = $::realmd::params::sssd_service_name,
   $sssd_config_file        = $::realmd::params::sssd_config_file,
   $sssd_config_cache_file  = $::realmd::params::sssd_config_cache_file,
@@ -56,10 +57,12 @@ class realmd (
     $adcli_package_name,
     $krb_client_package_name,
     $sssd_package_name,
+    $samba_package_name,
     $sssd_service_name,
     $domain,
     $domain_join_user,
     $domain_join_password,
+    $ou,
   )
 
   validate_absolute_path(
