@@ -44,7 +44,7 @@ if $_ou != undef {
 
   exec { 'realm_join_with_keytab':
     path    => '/usr/bin:/usr/sbin:/bin',
-    command => "realm join ${_domain} --ou=${_ou}",
+    command => "realm join ${_domain} --computer-ou=${_ou}",
     unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
     require => Exec['run_kinit_with_keytab'],
   }

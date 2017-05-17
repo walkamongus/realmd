@@ -15,7 +15,7 @@ if $_ou != undef {
 
   exec { 'realm_join_with_password':
     path    => '/usr/bin:/usr/sbin:/bin',
-    command => "echo '${_password}' | realm join ${_domain} --unattended --ou=${_ou} --user=${_user}",
+    command => "echo '${_password}' | realm join ${_domain} --unattended --computer-ou=${_ou} --user=${_user}",
     unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
   } 
   
