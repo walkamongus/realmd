@@ -7,7 +7,7 @@ class realmd::join::keytab {
 
   $_domain            = $::realmd::domain
   $_domain_join_user  = $::realmd::domain_join_user
-  $_ou        = $::realmd::ou
+  $_ou                = $::realmd::ou
   $_krb_keytab        = $::realmd::krb_keytab
   $_krb_config_file   = $::realmd::krb_config_file
   $_krb_config        = $::realmd::krb_config
