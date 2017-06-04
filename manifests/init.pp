@@ -85,10 +85,10 @@ class realmd (
 
   if $krb_keytab { validate_absolute_path($krb_keytab) }
 
-  class { '::realmd::install': } ->
-  class { '::realmd::config': } ~>
-  class { '::realmd::join': } ->
-  class { '::realmd::sssd::config': }~>
-  class { '::realmd::sssd::service': }
+  class { '::realmd::install': }
+  -> class { '::realmd::config': }
+  ~> class { '::realmd::join': }
+  -> class { '::realmd::sssd::config': }
+  ~> class { '::realmd::sssd::service': }
 
 }
