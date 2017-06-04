@@ -15,11 +15,11 @@ describe 'realmd' do
 
           it { is_expected.to contain_class('realmd') }
           it { is_expected.to contain_class('realmd::params') }
-          it { is_expected.to contain_class('realmd::install').that_comes_before('realmd::config') }
+          it { is_expected.to contain_class('realmd::install').that_comes_before('Class[realmd::config]') }
           it { is_expected.to contain_class('realmd::config') }
-          it { is_expected.to contain_class('realmd::join').that_subscribes_to('realmd::config') }
-          it { is_expected.to contain_class('realmd::sssd::config').that_requires('realmd::join') }
-          it { is_expected.to contain_class('realmd::sssd::service').that_subscribes_to('realmd::sssd::config') }
+          it { is_expected.to contain_class('realmd::join').that_subscribes_to('Class[realmd::config]') }
+          it { is_expected.to contain_class('realmd::sssd::config').that_requires('Class[realmd::join]') }
+          it { is_expected.to contain_class('realmd::sssd::service').that_subscribes_to('Class[realmd::sssd::config]') }
         end
       end
     end
