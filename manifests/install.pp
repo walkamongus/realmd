@@ -8,6 +8,7 @@ class realmd::install {
     $::realmd::adcli_package_name,
     $::realmd::krb_client_package_name,
     $::realmd::sssd_package_name,
+    $::realmd::samba_package_name,
     $::realmd::mkhomedir_package_names,
   ]
   $_packages = flatten($_package_list)
