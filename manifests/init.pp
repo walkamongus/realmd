@@ -26,6 +26,7 @@ class realmd (
   $domain                  = $::realmd::params::domain,
   $domain_join_user        = $::realmd::params::domain_join_user,
   $domain_join_password    = $::realmd::params::domain_join_password,
+  $ou                      = $::realmd::params::ou,
   $krb_ticket_join         = $::realmd::params::krb_ticket_join,
   $krb_keytab              = $::realmd::params::krb_keytab,
   $krb_config_file         = $::realmd::params::krb_config_file,

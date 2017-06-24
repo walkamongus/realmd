@@ -7,6 +7,7 @@ class realmd::join::keytab {
 
   $_domain            = $::realmd::domain
   $_domain_join_user  = $::realmd::domain_join_user
+  $_ou                = $::realmd::ou
   $_krb_keytab        = $::realmd::krb_keytab
   $_krb_config_file   = $::realmd::krb_config_file
   $_krb_config        = $::realmd::krb_config
@@ -39,11 +40,23 @@ class realmd::join::keytab {
     before      => Exec['realm_join_with_keytab'],
   }
 
+if $_ou != undef {
+
+  exec { 'realm_join_with_keytab':
+    path    => '/usr/bin:/usr/sbin:/bin',
+    command => "realm join ${_domain} --computer-ou=${_ou}",
+    unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
+    require => Exec['run_kinit_with_keytab'],
+  }
+}
+
+ else {
   exec { 'realm_join_with_keytab':
     path    => '/usr/bin:/usr/sbin:/bin',
     command => "realm join ${_domain}",
     unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
     require => Exec['run_kinit_with_keytab'],
   }
+ }
 
 }
