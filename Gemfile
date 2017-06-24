@@ -12,7 +12,7 @@ group :test do
   gem 'simplecov', '>= 0.11.0'
   gem 'simplecov-console'
   gem 'puppet-lint', '>= 2.0.0'
-  gem 'puppet-syntax', :git => 'https://github.com/voxpupuli/puppet-syntax'
+  gem 'puppet-syntax', '~> 2.4.0'
   gem 'json_pure', '<= 2.0.1' if RUBY_VERSION < '2.0.0'
 end
 
