@@ -13,21 +13,37 @@ describe 'realmd' do
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_class('realmd::install') }
-          
-          packages = [
-            'realmd',
-            'sssd',
-            'oddjob',
-            'oddjob-mkhomedir',
-            'adcli',
-            'krb5-workstation'
-          ]
 
-          packages.each do |package|
-            it do 
-              is_expected.to contain_package(package).with({
-                'ensure' => 'present',
-              })
+          case facts[:osfamily]
+          when 'Debian'
+            packages = [
+              'realmd',
+              'sssd',
+              'adcli',
+              'krb5-user',
+              'sssd-tools',
+              'libpam-modules',
+              'libnss-sss',
+              'libpam-sss',
+              'samba-common-bin',
+            ]
+
+            packages.each do |package|
+              it { is_expected.to contain_package(package).with_ensure('present') }
+            end
+          when 'RedHat'
+            packages = [
+              'realmd',
+              'sssd',
+              'adcli',
+              'krb5-workstation',
+              'oddjob',
+              'oddjob-mkhomedir',
+              'samba-common-tools',
+            ]
+
+            packages.each do |package|
+              it { is_expected.to contain_package(package).with_ensure('present') }
             end
           end
         end
