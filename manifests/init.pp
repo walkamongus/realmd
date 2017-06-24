@@ -22,7 +22,6 @@ class realmd (
   $sssd_config_cache_file  = $::realmd::params::sssd_config_cache_file,
   $sssd_config             = $::realmd::params::sssd_config,
   $manage_sssd_config      = $::realmd::params::manage_sssd_config,
-  $mkhomedir_package_names = $::realmd::params::mkhomedir_package_names,
   $domain                  = $::realmd::params::domain,
   $domain_join_user        = $::realmd::params::domain_join_user,
   $domain_join_password    = $::realmd::params::domain_join_password,
@@ -31,6 +30,7 @@ class realmd (
   $krb_config_file         = $::realmd::params::krb_config_file,
   $krb_config              = $::realmd::params::krb_config,
   $manage_krb_config       = $::realmd::params::manage_krb_config,
+  $required_packages       = $::realmd::params::required_packages,
 ) inherits ::realmd::params {
 
   if $krb_ticket_join == false {
@@ -71,10 +71,7 @@ class realmd (
     $realmd_config,
     $sssd_config,
     $krb_config,
-  )
-
-  validate_array(
-    $mkhomedir_package_names,
+    $required_packages,
   )
 
   validate_bool(
