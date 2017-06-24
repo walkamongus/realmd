@@ -20,6 +20,7 @@ class realmd::params {
       $mkhomedir_package_names = [
         'oddjob',
         'oddjob-mkhomedir',
+        'samba-common-tools',
       ]
       $domain                  = $::domain
       $domain_join_user        = undef
@@ -81,5 +82,52 @@ class realmd::params {
     default: {
       fail("${::operatingsystem} not supported")
     }
+  }
+
+  if $::operatingsystem == 'Ubuntu' {
+    if versioncmp($::operatingsystemrelease, '8.04') < 1 {
+      $init_style = 'debian'
+    } elsif versioncmp($::operatingsystemrelease, '15.04') < 0 {
+      $init_style = 'upstart'
+    } else {
+      $init_style = 'systemd'
+    }
+  } elsif $::operatingsystem =~ /Scientific|CentOS|RedHat|OracleLinux/ {
+    if versioncmp($::operatingsystemrelease, '7.0') < 0 {
+      $init_style = 'service'
+    } else {
+      $init_style  = 'systemd'
+    }
+  } elsif $::operatingsystem == 'Fedora' {
+    if versioncmp($::operatingsystemrelease, '12') < 0 {
+      $init_style = 'service'
+    } else {
+      $init_style = 'systemd'
+    }
+  } elsif $::operatingsystem == 'Debian' {
+    if versioncmp($::operatingsystemrelease, '8.0') < 0 {
+      $init_style = 'debian'
+    } else {
+      $init_style = 'systemd'
+    }
+  } elsif $::operatingsystem == 'Archlinux' {
+    $init_style = 'systemd'
+  } elsif $::operatingsystem == 'OpenSuSE' {
+    $init_style = 'systemd'
+  } elsif $::operatingsystem =~ /SLE[SD]/ {
+    if versioncmp($::operatingsystemrelease, '12.0') < 0 {
+      $init_style = 'sles'
+    } else {
+      $init_style = 'systemd'
+    }
+  } elsif $::operatingsystem == 'Darwin' {
+    $init_style = 'launchd'
+  } elsif $::operatingsystem == 'Amazon' {
+    $init_style = 'service'
+  } else {
+    $init_style = undef
+  }
+  if $init_style == undef {
+    fail('Unsupported OS')
   }
 }
