@@ -1,3 +1,7 @@
+2017-06-24 Release 1.0.0
+- Remove the mkhomedir packages parameter in favor of a more generic required
+packages parameter
+- Add Debian support to metadata
 2016-05-24 Release 0.1.3
 - Add more robust check of domain membership and attempt to join domain if check fails
 2016-05-24 Release 0.1.2

@@ -1,6 +1,6 @@
 {
   "name": "walkamongus-realmd",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "author": "Chadwick Banning",
   "summary": "Puppet module to install and configure Realmd",
   "license": "Apache-2.0",
