@@ -1,8 +1,9 @@
 {
   "name": "walkamongus-realmd",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "Chadwick Banning",
   "summary": "Puppet module to install and configure Realmd",
+  "data_provider": "hiera",
   "license": "Apache-2.0",
   "source": "https://github.com/walkamongus/realmd",
   "project_page": "https://github.com/walkamongus/realmd",
@@ -31,7 +32,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 3.4.0 < 5.0.0"
+      "version_requirement": ">= 4.0.0 < 5.0.0"
     }
   ]
 }

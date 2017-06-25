@@ -28,7 +28,7 @@ describe 'realmd' do
               'owner' => 'root',
               'group' => 'root',
               'mode'  => '0400',
-            }).that_notifies('Exec[run_kinit_with_keytab]')
+            }).that_comes_before('Exec[run_kinit_with_keytab]')
           end
 
           it do
@@ -37,7 +37,7 @@ describe 'realmd' do
               'owner' => 'root',
               'group' => 'root',
               'mode'  => '0644',
-            }).that_notifies('Exec[run_kinit_with_keytab]')
+            }).that_comes_before('Exec[run_kinit_with_keytab]')
           end
 
           it do
@@ -66,9 +66,9 @@ describe 'realmd' do
 
           it do
             is_expected.to contain_exec('run_kinit_with_keytab').with({
-              'path'        => '/usr/bin:/usr/sbin:/bin',
-              'command'     => 'kinit -kt /tmp/join.keytab user',
-              'refreshonly' => 'true',
+              'path'    => '/usr/bin:/usr/sbin:/bin',
+              'command' => 'kinit -kt /tmp/join.keytab user',
+              'unless'  => 'kinit -k host/$(hostname -f)',
             }).that_comes_before('Exec[realm_join_with_keytab]')
           end
 
@@ -76,7 +76,7 @@ describe 'realmd' do
             is_expected.to contain_exec('realm_join_with_keytab').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
               'command' => 'realm join example.com',
-              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
+              'unless'  => 'kinit -k host/$(hostname -f)',
             })
           end
         end
