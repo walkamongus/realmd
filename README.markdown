@@ -115,7 +115,7 @@ Set up Realmd, join an Active Directory domain via a keytab and fully configure 
 
 ## Reference
 
-###Parameters
+### Parameters
 
 Default values are in params.pp.
 
@@ -139,7 +139,7 @@ Default values are in params.pp.
 * `krb_config`: Hash. A hash of configuration options structured in an ini-style format.
 * `manage_krb_config`: Boolean. Enable or disable management of the Kerberos client configuration file.
 
-###Classes
+### Classes
 * realmd::params
 * realmd::istall
 * realmd::config
