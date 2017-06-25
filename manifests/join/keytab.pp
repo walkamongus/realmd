@@ -12,6 +12,8 @@ class realmd::join::keytab {
   $_krb_config        = $::realmd::krb_config
   $_manage_krb_config = $::realmd::manage_krb_config
 
+  $_krb_config_final = deep_merge({'libdefaults' => {'default_realm' => upcase($::domain)}}, $_krb_config)
+
   file { 'krb_keytab':
     path   => $_krb_keytab,
     owner  => 'root',

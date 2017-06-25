@@ -11,27 +11,32 @@
 #   e.g. "Specify one or more upstream ntp servers as an array."
 #
 class realmd (
-  $realmd_package_name     = $::realmd::params::realmd_package_name,
-  $realmd_config_file      = $::realmd::params::realmd_config_file,
-  $realmd_config           = $::realmd::params::realmd_config,
-  $adcli_package_name      = $::realmd::params::adcli_package_name,
-  $krb_client_package_name = $::realmd::params::krb_client_package_name,
-  $sssd_package_name       = $::realmd::params::sssd_package_name,
-  $sssd_service_name       = $::realmd::params::sssd_service_name,
-  $sssd_config_file        = $::realmd::params::sssd_config_file,
-  $sssd_config_cache_file  = $::realmd::params::sssd_config_cache_file,
-  $sssd_config             = $::realmd::params::sssd_config,
-  $manage_sssd_config      = $::realmd::params::manage_sssd_config,
-  $domain                  = $::realmd::params::domain,
-  $domain_join_user        = $::realmd::params::domain_join_user,
-  $domain_join_password    = $::realmd::params::domain_join_password,
-  $krb_ticket_join         = $::realmd::params::krb_ticket_join,
-  $krb_keytab              = $::realmd::params::krb_keytab,
-  $krb_config_file         = $::realmd::params::krb_config_file,
-  $krb_config              = $::realmd::params::krb_config,
-  $manage_krb_config       = $::realmd::params::manage_krb_config,
-  $required_packages       = $::realmd::params::required_packages,
-) inherits ::realmd::params {
+  String $realmd_package_name,
+  String $realmd_package_ensure,
+  Stdlib::Absolutepath $realmd_config_file,
+  Hash $realmd_config,
+  String $adcli_package_name,
+  String $adcli_package_ensure,
+  String $krb_client_package_name,
+  String $krb_client_package_ensure,
+  String $sssd_package_name,
+  String $sssd_package_ensure,
+  String $sssd_service_name,
+  String $sssd_service_ensure,
+  Stdlib::Absolutepath $sssd_config_file,
+  Stdlib::Absolutepath $sssd_config_cache_file,
+  Hash $sssd_config,
+  Boolean $manage_sssd_config,
+  String $domain,
+  Variant[String, Undef] $domain_join_user,
+  Variant[String, Undef] $domain_join_password,
+  Boolean $krb_ticket_join,
+  Variant[Stdlib::Absolutepath, Undef] $krb_keytab,
+  Stdlib::Absolutepath $krb_config_file,
+  Hash $krb_config,
+  Boolean $manage_krb_config,
+  Hash $required_packages,
+) {
 
   if $krb_ticket_join == false {
     if ($domain_join_user and !$domain_join_password) {
@@ -49,38 +54,6 @@ class realmd (
   if $manage_krb_config and empty($krb_config) {
     fail('The krb_config parameter cannot be an empty hash when managing the Kerberos client configuration')
   }
-
-  validate_string(
-    $realmd_package_name,
-    $adcli_package_name,
-    $krb_client_package_name,
-    $sssd_package_name,
-    $sssd_service_name,
-    $domain,
-    $domain_join_user,
-    $domain_join_password,
-  )
-
-  validate_absolute_path(
-    $realmd_config_file,
-    $sssd_config_file,
-    $krb_config_file,
-  )
-
-  validate_hash(
-    $realmd_config,
-    $sssd_config,
-    $krb_config,
-    $required_packages,
-  )
-
-  validate_bool(
-    $manage_sssd_config,
-    $krb_ticket_join,
-    $manage_krb_config,
-  )
-
-  if $krb_keytab { validate_absolute_path($krb_keytab) }
 
   class { '::realmd::install': }
   -> class { '::realmd::config': }
