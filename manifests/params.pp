@@ -22,6 +22,7 @@ class realmd::params {
   $krb_keytab             = undef
   $krb_config_file        = '/etc/krb5.conf'
   $manage_krb_config      = true
+  $ou                     = undef
   $krb_config             = {
     'logging' => {
       'default' => 'FILE:/var/log/krb5libs.log',

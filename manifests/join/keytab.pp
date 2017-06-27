@@ -11,6 +11,7 @@ class realmd::join::keytab {
   $_krb_config_file   = $::realmd::krb_config_file
   $_krb_config        = $::realmd::krb_config
   $_manage_krb_config = $::realmd::manage_krb_config
+  $_ou                = $::realmd::ou
 
   $_krb_config_final = deep_merge({'libdefaults' => {'default_realm' => upcase($::domain)}}, $_krb_config)
 
@@ -41,11 +42,24 @@ class realmd::join::keytab {
     before  => Exec['realm_join_with_keytab'],
   }
 
+if $_ou != undef {
+  exec { 'realm_join_with_keytab':
+    path    => '/usr/bin:/usr/sbin:/bin',
+    command => "realm join ${_domain} --computer-ou=${_ou}",
+    unless  => 'kinit -k host/$(hostname -f)',
+    require => Exec['run_kinit_with_keytab'],
+}
+
+else {
   exec { 'realm_join_with_keytab':
     path    => '/usr/bin:/usr/sbin:/bin',
     command => "realm join ${_domain}",
     unless  => 'kinit -k host/$(hostname -f)',
     require => Exec['run_kinit_with_keytab'],
+
+}
+  
+
   }
 
 }

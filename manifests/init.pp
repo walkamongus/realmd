@@ -35,6 +35,7 @@ class realmd (
   Stdlib::Absolutepath $krb_config_file,
   Hash $krb_config,
   Boolean $manage_krb_config,
+  String $ou,
   Hash $required_packages,
 ) {
 
