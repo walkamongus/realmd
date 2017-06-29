@@ -59,3 +59,4 @@ else {
     require => Exec['run_kinit_with_keytab'],
   }
 }
+}
