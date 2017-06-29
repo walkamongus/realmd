@@ -48,6 +48,7 @@ if $_ou != undef {
     command => "realm join ${_domain} --computer-ou=${_ou}",
     unless  => 'kinit -k host/$(hostname -f)',
     require => Exec['run_kinit_with_keytab'],
+  }
 }
 
 else {
@@ -56,10 +57,5 @@ else {
     command => "realm join ${_domain}",
     unless  => 'kinit -k host/$(hostname -f)',
     require => Exec['run_kinit_with_keytab'],
-
-}
-  
-
   }
-
 }
