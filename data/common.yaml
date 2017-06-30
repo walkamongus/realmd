@@ -16,6 +16,7 @@ realmd::manage_sssd_config: false
 realmd::domain: "%{::domain}"
 realmd::domain_join_user: ~
 realmd::domain_join_password: ~
+realmd::ou: ~
 realmd::krb_ticket_join: false
 realmd::krb_keytab: ~
 realmd::krb_config_file: /etc/krb5.conf
