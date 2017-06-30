@@ -42,21 +42,19 @@ class realmd::join::keytab {
     before  => Exec['realm_join_with_keytab'],
   }
 
-if $_ou != undef {
-  exec { 'realm_join_with_keytab':
-    path    => '/usr/bin:/usr/sbin:/bin',
-    command => "realm join ${_domain} --computer-ou=${_ou}",
-    unless  => 'kinit -k host/$(hostname -f)',
-    require => Exec['run_kinit_with_keytab'],
+  if $_ou != undef {
+    $_realm_args = [$_domain, "--computer-ou=${_ou}"]
+  } else {
+    $_realm_args = [$_domain,]
   }
-}
 
-else {
+  $_args = join($_realm_args, ' ')
+
   exec { 'realm_join_with_keytab':
     path    => '/usr/bin:/usr/sbin:/bin',
-    command => "realm join ${_domain}",
+    command => "realm join ${_args}",
     unless  => 'kinit -k host/$(hostname -f)',
     require => Exec['run_kinit_with_keytab'],
   }
-}
+
 }

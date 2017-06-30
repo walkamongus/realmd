@@ -10,20 +10,18 @@ class realmd::join::password {
   $_password  = $::realmd::domain_join_password
   $_ou        = $::realmd::ou
 
-if $_ou != undef {
-    exec { 'realm_join_with_password':
-    path    => '/usr/bin:/usr/sbin:/bin',
-    command => "echo '${_password}' | realm join ${_domain} --unattended --computer-ou=${_ou} --user=${_user}",
-    unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
+  if $_ou != undef {
+    $_realm_args = [$_domain, "--unattended", "--computer-ou=${_ou}", "--user=${_user}"]
+  } else {
+    $_realm_args = [$_domain, "--unattended", "--user=${_user}"]
   }
-}
 
-else {
+  $_args = join($_realm_args, ' ')
+
   exec { 'realm_join_with_password':
     path    => '/usr/bin:/usr/sbin:/bin',
-    command => "echo '${_password}' | realm join ${_domain} --unattended --user=${_user}",
+    command => "echo '${_password}' | realm join ${_args}",
     unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
   }
-}
 
 }
