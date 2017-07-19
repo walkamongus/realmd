@@ -3,6 +3,7 @@ realmd::realmd_package_name: realmd
 realmd::realmd_package_ensure: present
 realmd::realmd_config_file: /etc/realmd.conf
 realmd::realmd_config: {}
+realmd::homedir_umask: '0022'
 realmd::adcli_package_name: adcli
 realmd::adcli_package_ensure: present
 realmd::sssd_package_name: sssd

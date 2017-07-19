@@ -122,6 +122,7 @@ Default values are in params.pp.
 * `realmd_package_name`: String. The name of the main Realmd package.
 * `realmd_config_file`: String. The absolute path of the Realmd configuration file.
 * `realmd_config`: Hash. A hash of configuration options structured in an ini-style format.
+* `homedir_umask`: String. A string of the umask for the default directory permissions created by mkhomedir with Debian.
 * `adcli_package_name`: String. The name of the adcli package
 * `krb_client_package_name`: String. The name of the Kerberos client package.
 * `sssd_package_name`: String. The name of the main SSSD package.
