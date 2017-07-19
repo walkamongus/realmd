@@ -6,6 +6,7 @@ class realmd::config {
 
   $_realmd_config      = $::realmd::realmd_config
   $_realmd_config_file = $::realmd::realmd_config_file
+  $_realmd_home_umask  = $::realmd::homedir_umask
 
   file { $_realmd_config_file:
     ensure  => file,
@@ -17,12 +18,12 @@ class realmd::config {
 
   if $::osfamily == 'Debian' {
     file { '/usr/share/pam-configs/realmd_mkhomedir':
-      ensure => file,
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-      source => 'puppet:///modules/realmd/realmd_mkhomedir',
-      notify => Exec['realm-pam-auth-update'],
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template('realmd/realmd_mkhomedir.erb'),
+      notify  => Exec['realm-pam-auth-update'],
     }
 
     exec { 'realm-pam-auth-update':

@@ -15,6 +15,7 @@ class realmd (
   String $realmd_package_ensure,
   Stdlib::Absolutepath $realmd_config_file,
   Hash $realmd_config,
+  String $homedir_umask,
   String $adcli_package_name,
   String $adcli_package_ensure,
   String $krb_client_package_name,
