@@ -13,7 +13,7 @@ class realmd::join::password {
   notify {"OU=${_ou}":}
 
   if $_ou != undef {
-    $_realm_args = [$_domain, '--unattended', "--computer-ou=OU=${_ou}", "--user=${_user}"]
+    $_realm_args = [$_domain, '--unattended', "--computer-ou=${_ou}", "--user=${_user}"]
   } else {
     $_realm_args = [$_domain, '--unattended', "--user=${_user}"]
   }
