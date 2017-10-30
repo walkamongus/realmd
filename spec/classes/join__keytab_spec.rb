@@ -68,7 +68,7 @@ describe 'realmd' do
             is_expected.to contain_exec('run_kinit_with_keytab').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
               'command' => 'kinit -kt /tmp/join.keytab user',
-              'unless'  => 'kinit -k host/$(hostname -f)',
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             }).that_comes_before('Exec[realm_join_with_keytab]')
           end
 
@@ -76,7 +76,7 @@ describe 'realmd' do
             is_expected.to contain_exec('realm_join_with_keytab').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
               'command' => 'realm join example.com',
-              'unless'  => 'kinit -k host/$(hostname -f)',
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
           end
         end

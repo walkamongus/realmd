@@ -17,7 +17,7 @@ class realmd::join::password {
   }
 
   $_args = join($_realm_args, ' ')
-  
+
   file { '/usr/libexec':
     ensure  => 'directory',
   }
