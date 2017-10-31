@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.2.0](https://github.com/walkamongus/realmd/tree/v2.2.0) (2017-10-30)
+[Full Changelog](https://github.com/walkamongus/realmd/compare/v2.1.0...v2.2.0)
+
+**Closed issues:**
+
+- Keytab join runs on every Puppet refresh [\#36](https://github.com/walkamongus/realmd/issues/36)
+- use\_fully\_qualified\_names [\#33](https://github.com/walkamongus/realmd/issues/33)
+- Path /usr/libexec/ doesn't exist on Ubuntu [\#31](https://github.com/walkamongus/realmd/issues/31)
+
+**Merged pull requests:**
+
+- Ensure /usr/libexec exists \(Issue \#31\) [\#38](https://github.com/walkamongus/realmd/pull/38) ([rsynnest](https://github.com/rsynnest))
+- Added single quotes to OU to allow for OU structures containing spaces [\#37](https://github.com/walkamongus/realmd/pull/37) ([acurus-puppetmaster](https://github.com/acurus-puppetmaster))
+
 ## [v2.1.0](https://github.com/walkamongus/realmd/tree/v2.1.0) (2017-07-27)
 [Full Changelog](https://github.com/walkamongus/realmd/compare/v2.0.0...v2.1.0)
 
