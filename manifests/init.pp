@@ -38,6 +38,7 @@ class realmd (
   Boolean $manage_krb_config,
   Variant[String, Undef] $ou,
   Hash $required_packages,
+  Variant[Array, Undef] $extra_join_options,
 ) {
 
   if $krb_ticket_join == false {

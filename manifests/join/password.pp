@@ -5,10 +5,11 @@
 #
 class realmd::join::password {
 
-  $_domain    = $::realmd::domain
-  $_user      = $::realmd::domain_join_user
-  $_password  = $::realmd::domain_join_password
-  $_ou        = $::realmd::ou
+  $_domain             = $::realmd::domain
+  $_user               = $::realmd::domain_join_user
+  $_password           = $::realmd::domain_join_password
+  $_ou                 = $::realmd::ou
+  $_extra_join_options = $::realmd::extra_join_options
 
   if $_ou != undef {
     $_realm_args = [$_domain, '--unattended', "--computer-ou='OU=${_ou}'", "--user=${_user}"]
@@ -16,7 +17,7 @@ class realmd::join::password {
     $_realm_args = [$_domain, '--unattended', "--user=${_user}"]
   }
 
-  $_args = join($_realm_args, ' ')
+  $_args = join(concat($_realm_args, $_extra_join_options), ' ')
 
   file { '/usr/libexec':
     ensure  => 'directory',
