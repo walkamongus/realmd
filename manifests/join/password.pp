@@ -17,7 +17,7 @@ class realmd::join::password {
     $_realm_args = [$_domain, '--unattended', "--user=${_user}"]
   }
 
-  $_args = join(concat($_realm_args, $_extra_join_options), ' ')
+  $_args = strip(join(concat($_realm_args, $_extra_join_options), ' '))
 
   file { '/usr/libexec':
     ensure  => 'directory',
