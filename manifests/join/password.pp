@@ -11,13 +11,21 @@ class realmd::join::password {
   $_ou                 = $::realmd::ou
   $_extra_join_options = $::realmd::extra_join_options
 
+  if $::realmd::computer_name != undef {
+    $_computer_name = $::realmd::computer_name
+  } else {
+    $_computer_name = "${::hostname[0,15]}"
+  }
+
+  $_computer_name_arg = ["--computer-name=${_computer_name}"]
+
   if $_ou != undef {
     $_realm_args = [$_domain, '--unattended', "--computer-ou='OU=${_ou}'", "--user=${_user}"]
   } else {
     $_realm_args = [$_domain, '--unattended', "--user=${_user}"]
   }
 
-  $_args = strip(join(concat($_realm_args, $_extra_join_options), ' '))
+  $_args = strip(join(concat($_realm_args, $_computer_name_arg, $_extra_join_options), ' '))
 
   file { '/usr/libexec':
     ensure  => 'directory',
@@ -35,7 +43,7 @@ class realmd::join::password {
     environment => ["AD_JOIN_PASSWORD=${_password}"],
     path        => '/usr/bin:/usr/sbin:/bin',
     command     => "/usr/libexec/realm_join_with_password realm join ${_args}",
-    unless      => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
+    unless      => "klist -k /etc/krb5.keytab | grep -i '${_computer_name}@${_domain}'",
     require     => File['/usr/libexec/realm_join_with_password'],
   }
 }
