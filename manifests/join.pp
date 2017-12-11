@@ -8,7 +8,12 @@ class realmd::join {
     contain '::realmd::join::keytab'
   }
   else {
-    contain '::realmd::join::password'
+    if $::realmd::domain_join_user {
+        contain '::realmd::join::password'
+    }
+    else {
+        contain '::realmd::join::one_time_password'
+    }
   }
 
 }
