@@ -22,7 +22,7 @@ describe 'realmd' do
           it do
             is_expected.to contain_exec('realm_join_with_password').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
-              'command' => '/usr/libexec/realm_join_with_password realm join example.com --unattended --user=user',
+              'command' => '/usr/libexec/realm_join_with_password realm join example.com --unattended --user=user --computer-name=foo',
               'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
           end
