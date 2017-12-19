@@ -82,6 +82,26 @@ Setup realmd and join an Active Directory domain via username and password:
       domain_join_password => 'password',
     }
 
+### Joining with a prepared computer account
+1. Create the computer account by running adcli on *any* domain joined machine
+  * new computer account: `/usr/sbin/adcli preset-computer --domain example.com`
+  * or use an existing account: `/usr/sbin/adcli reset-computer --domain example.com`
+2. Configure the realmd class
+
+```
+    class { '::realmd':
+      domain             => $::domain,
+      one_time_password  => 's3cure_pw', #optional, skip if you didn't specify it when running preset-computer# 
+      #do not set domain_join_user
+      #do not set krb_ticket_join
+    }
+```
+
+#### Errors when running wio
+1. `Error: adcli join ... returned 3 instead of one of [0]`
+
+The account hasn't been prepared properly or the password is wrong
+
 ## Usage
 
 Set up Realmd, join an Active Directory domain via a keytab and fully configure SSSD:
@@ -134,6 +154,7 @@ Default values are in params.pp.
 * `domain`: String. The name of the domain to join.
 * `domain_join_user`: String. The account to be used in joining the domain.
 * `domain_join_password`: String. The password of the account to be used in joining the domain.
+* `one_time_password`: The password of the prepared computeraccount.
 * `krb_ticket_join`: Boolean. Enable of disable joining the domain via a Kerberos keytab.
 * `krb_keytab`: String. The absolute path to the Kerberos keytab file to be used in joining the domain.
 * `krb_config_file`: String. The absolute path to the Kerberos client configuration file.
@@ -147,6 +168,7 @@ Default values are in params.pp.
 * realmd::join
 * realmd::join::password
 * realmd::join::keytab
+* realmd::join::one_time_password
 * realmd::sssd::config
 * realmd::sssd::service
 
