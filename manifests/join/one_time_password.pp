@@ -34,7 +34,7 @@ class realmd::join::one_time_password {
     }
   }
 
-  $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", "--login-type=computer"]
+  $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer']
 
   if $_ou != undef {
       $_ou_args=["--computer-ou='OU=${_ou}'"]
@@ -47,7 +47,7 @@ class realmd::join::one_time_password {
       $_password_args=["--one-time-password='${$::realmd::one_time_password}'"]
   }
   else {
-      $_password_args=["--no-password"]
+      $_password_args=['--no-password']
   }
 
 
