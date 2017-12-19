@@ -20,7 +20,8 @@ class realmd::join::one_time_password {
   else {
       $_password=$::realmd::one_time_password
   }
-
+  $_realm=upcase($::realmd::domain)
+  $_fqdn=$::fqdn
 
   if $_manage_krb_config {
     file { 'krb_configuration':
@@ -33,7 +34,7 @@ class realmd::join::one_time_password {
     }
   }
 
-  $_domain_args = ["--domain=${_domain}" ]
+  $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", "--login-type=computer"]
 
   if $_ou != undef {
       $_ou_args=["--computer-ou='OU=${_ou}'"]
@@ -41,17 +42,16 @@ class realmd::join::one_time_password {
   else {
       $_ou_args=[]
   }
-  
+
   if $::realmd::one_time_password != undef {
       $_password_args=["--one-time-password='${$::realmd::one_time_password}'"]
   }
   else {
-      $_password_args=[]
+      $_password_args=["--no-password"]
   }
 
 
   $_args = join(concat( $_domain_args, $_ou_args, $_password_args), ' ')
-
 
   exec { 'realm_join_one_time_password':
     path    => '/usr/bin:/usr/sbin:/bin',

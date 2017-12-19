@@ -22,7 +22,7 @@ describe 'realmd' do
           it do
             is_expected.to contain_exec('realm_join_one_time_password').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
-              'command' => "adcli join --domain=example.com --one-time-password='password'",
+              'command' => "adcli join --domain=example.com --user-principal=host/foo.example.com@EXAMPLE.COM --login-type=computer --one-time-password='password'",
               'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
           end
@@ -33,14 +33,15 @@ describe 'realmd' do
       context "on #{os}" do
         let(:facts) do
             facts.merge({
-                :hostname => 'to_long_hostname',
+                :hostname => 'to-long-hostname',
+                :domain   => 'example.com',
+                :fqdn     => 'to-long-hostname.example.com',
             })
         end
         
         context "realmd::join::one_time_password class" do
           let(:params) do
             {
-#              :one_time_password => 'to_long_hostnam',
               :domain                        => 'example.com',
             }
           end
@@ -50,8 +51,8 @@ describe 'realmd' do
           it do
             is_expected.to contain_exec('realm_join_one_time_password').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
-              'command' => "adcli join --domain=example.com", # 'e' is removed
-              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'to_long_hostnam@example.com'",
+              'command' => "adcli join --domain=example.com --user-principal=host/to-long-hostname.example.com@EXAMPLE.COM --login-type=computer --no-password", 
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'to-long-hostnam@example.com'", # 'e' is removed
             })
           end
         end
