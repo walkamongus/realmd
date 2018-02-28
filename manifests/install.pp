@@ -12,12 +12,16 @@ class realmd::install {
     ensure => $::realmd::adcli_package_ensure,
   }
 
-  package { $::realmd::krb_client_package_name:
-    ensure => $::realmd::krb_client_package_ensure,
+  if $::realmd::manage_krb_client_package {
+    package { $::realmd::krb_client_package_name:
+      ensure => $::realmd::krb_client_package_ensure,
+    }
   }
 
-  package { $::realmd::sssd_package_name:
-    ensure => $::realmd::sssd_package_ensure,
+  if $::realmd::manage_sssd_package {
+    package { $::realmd::sssd_package_name:
+      ensure => $::realmd::sssd_package_ensure,
+    }
   }
 
   ensure_packages($::realmd::required_packages)
