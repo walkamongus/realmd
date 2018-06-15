@@ -36,8 +36,10 @@ class realmd::join::one_time_password {
   }
 
   if !empty($_netbiosname) {
+    $_check_pricipal = $_netbiosname
     $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer', "--computer-name=${_netbiosname}"]
   } else {
+    $_check_pricipal = $::hostname[0,15]
     $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer']
   }
 
@@ -61,6 +63,6 @@ class realmd::join::one_time_password {
   exec { 'realm_join_one_time_password':
     path    => '/usr/bin:/usr/sbin:/bin',
     command => "adcli join ${_args}",
-    unless  => "klist -k /etc/krb5.keytab | grep -i '${::hostname[0,15]}@${_domain}'",
+    unless  => "klist -k /etc/krb5.keytab | grep -i '${_check_pricipal}@${_domain}'",
   }
 }
