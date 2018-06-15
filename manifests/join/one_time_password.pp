@@ -8,6 +8,7 @@
 class realmd::join::one_time_password {
 
   $_domain            = $::realmd::domain
+  $_netbiosname       = $::realmd::netbiosname
   $_ou                = $::realmd::ou
   $_krb_config_file   = $::realmd::krb_config_file
   $_krb_config        = $::realmd::krb_config
@@ -15,10 +16,10 @@ class realmd::join::one_time_password {
 
   $_krb_config_final = deep_merge({'libdefaults' => {'default_realm' => upcase($::domain)}}, $_krb_config)
   if !$::realmd::one_time_password  {
-      $_password=$::hostname[0,15]
-  }
-  else {
-      $_password=$::realmd::one_time_password
+        $_password=$::hostname[0,15]
+    }
+    else {
+        $_password=$::realmd::one_time_password
   }
   $_realm=upcase($::realmd::domain)
   $_fqdn=$::fqdn
@@ -34,7 +35,11 @@ class realmd::join::one_time_password {
     }
   }
 
-  $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer']
+  if !empty($_netbiosname) {
+    $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer', "--computer-name=${_netbiosname}"]
+  } else {
+    $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer']
+  }
 
   if $_ou != undef {
       $_ou_args=["--computer-ou='OU=${_ou}'"]
