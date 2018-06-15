@@ -19,7 +19,7 @@ realmd::domain_join_user: ~
 realmd::domain_join_password: ~
 realmd::one_time_password: ~
 realmd::ou: ~
-realmd::netbiosname: ~
+realmd::netbiosname: ''
 realmd::krb_ticket_join: false
 realmd::krb_keytab: ~
 realmd::krb_config_file: /etc/krb5.conf

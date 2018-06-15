@@ -29,7 +29,7 @@ class realmd (
   Hash $sssd_config,
   Boolean $manage_sssd_config,
   String $domain,
-  Variant[String, Undef] $netbiosname,
+  String $netbiosname,
   Variant[String, Undef] $domain_join_user,
   Variant[String, Undef] $domain_join_password,
   Variant[String, Undef] $one_time_password,
