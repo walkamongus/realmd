@@ -20,7 +20,7 @@ class realmd::join::password {
   $_computer_name_arg = ["--computer-name=${_computer_name}"]
 
   if $_ou != undef {
-    $_realm_args = [$_domain, '--unattended', "--computer-ou='OU=${_ou}'", "--user=${_user}"]
+    $_realm_args = [$_domain, '--unattended', "--computer-ou='${_ou}'", "--user=${_user}"]
   } else {
     $_realm_args = [$_domain, '--unattended', "--user=${_user}"]
   }
