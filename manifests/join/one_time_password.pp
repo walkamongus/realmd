@@ -37,7 +37,8 @@ class realmd::join::one_time_password {
 
   if !empty($_netbiosname) {
     $_check_pricipal = $_netbiosname
-    $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer', "--computer-name=${_netbiosname}"]
+    $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}",
+                    '--login-type=computer', "--computer-name=${_netbiosname}"]
   } else {
     $_check_pricipal = $::hostname[0,15]
     $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer']
