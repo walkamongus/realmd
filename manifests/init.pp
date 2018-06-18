@@ -29,8 +29,10 @@ class realmd (
   Hash $sssd_config,
   Boolean $manage_sssd_config,
   String $domain,
+  String $netbiosname,
   Variant[String, Undef] $domain_join_user,
   Variant[String, Undef] $domain_join_password,
+  Variant[String, Undef] $one_time_password,
   Boolean $krb_ticket_join,
   Variant[Stdlib::Absolutepath, Undef] $krb_keytab,
   Stdlib::Absolutepath $krb_config_file,
@@ -49,6 +51,9 @@ class realmd (
   }
   if ($domain_join_password and !$domain_join_user) {
     fail('Cannot set domain_join_password without domain_join_user')
+  }
+  if ($one_time_password and $domain_join_user) {
+    fail('Cannot do a machine login with one_time_password, when a domain_join_user is set')
   }
 
   if $manage_sssd_config and empty($sssd_config) {
