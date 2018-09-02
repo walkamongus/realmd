@@ -1,6 +1,27 @@
 # Change Log
 
-## [v2.2.0](https://github.com/walkamongus/realmd/tree/v2.2.0) (2017-10-30)
+## [v2.3.0](https://github.com/walkamongus/realmd/tree/v2.3.0) (2018-09-02)
+[Full Changelog](https://github.com/walkamongus/realmd/compare/v2.2.0...v2.3.0)
+
+**Closed issues:**
+
+- Duplicate declaration: Packages adcli and sssd are already declared. [\#49](https://github.com/walkamongus/realmd/issues/49)
+- Hiera-eyaml problem in evaluating password \[parameter 'domain\_join\_password' expects a value of type Undef or String, got Struct\] [\#48](https://github.com/walkamongus/realmd/issues/48)
+- Realmd is not available on Red Hat family 6 and older [\#47](https://github.com/walkamongus/realmd/issues/47)
+- Ubuntu 14.04 and Puppet 3.8 [\#44](https://github.com/walkamongus/realmd/issues/44)
+- params.pp is missing in version 2.1.0 [\#34](https://github.com/walkamongus/realmd/issues/34)
+- Could not retrieve catalog: undefined method 'ref' for nil:NilClass [\#15](https://github.com/walkamongus/realmd/issues/15)
+
+**Merged pull requests:**
+
+- Gem updates [\#52](https://github.com/walkamongus/realmd/pull/52) ([walkamongus](https://github.com/walkamongus))
+- Remove independently managed packages from required\_packages param [\#51](https://github.com/walkamongus/realmd/pull/51) ([walkamongus](https://github.com/walkamongus))
+- Increase range of Puppet support [\#45](https://github.com/walkamongus/realmd/pull/45) ([tux-o-matic](https://github.com/tux-o-matic))
+- Allow joining without password or on time password [\#42](https://github.com/walkamongus/realmd/pull/42) ([jradmacher](https://github.com/jradmacher))
+- Allow user to specify additional options to "realm join" [\#41](https://github.com/walkamongus/realmd/pull/41) ([pjfbashton](https://github.com/pjfbashton))
+- Removed OU prefix as distinguished names should already start with OU= [\#40](https://github.com/walkamongus/realmd/pull/40) ([acurus-puppetmaster](https://github.com/acurus-puppetmaster))
+
+## [v2.2.0](https://github.com/walkamongus/realmd/tree/v2.2.0) (2017-10-31)
 [Full Changelog](https://github.com/walkamongus/realmd/compare/v2.1.0...v2.2.0)
 
 **Closed issues:**
