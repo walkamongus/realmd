@@ -18,6 +18,7 @@ group :test do
   gem 'puppet-lint', '>= 2.0.0'
   gem 'puppet-syntax', '~> 2.4.0'
   gem 'json_pure', '<= 2.0.1' if RUBY_VERSION < '2.0.0'
+  gem 'net-telnet', '0.1.1'
 end
 
 group :development do
