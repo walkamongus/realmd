@@ -1,17 +1,17 @@
 source "https://rubygems.org"
 
-puppetversion = ENV['PUPPET_VERSION'].nil? ? '~> 4.5' : ENV['PUPPET_VERSION'].to_s
+puppetversion = ENV['PUPPET_VERSION'].nil? ? '~> 4.10' : ENV['PUPPET_VERSION'].to_s
 puppetver = Gem::Version.new(%r/([\d.]+)/.match(puppetversion)[1])
 
 group :test do
   gem "rake"
   gem "puppet", puppetversion
-  gem "rspec", '~> 3.4.0'
+  gem "rspec", '~> 3.8.0'
   gem "rspec-puppet", :git => 'https://github.com/rodjek/rspec-puppet.git'
   gem "puppetlabs_spec_helper", '~> 2.1'
   gem "metadata-json-lint"
   gem "rspec-puppet-facts"
-  gem 'rubocop', '0.40.0'
+  gem 'rubocop', '0.57.2'
   gem 'semantic_puppet' unless puppetver >= Gem::Version.new('5.0')
   gem 'simplecov', '>= 0.11.0'
   gem 'simplecov-console'
