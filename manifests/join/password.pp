@@ -19,6 +19,10 @@ class realmd::join::password {
 
   $_computer_name_arg = ["--computer-name=${_computer_name}"]
 
+  if $::lsbdistcodename == 'xenial' {
+    $_computer_name_arg  = ''
+    }
+
   if $_ou != undef {
     $_realm_args = [$_domain, '--unattended', "--computer-ou='${_ou}'", "--user=${_user}"]
   } else {
