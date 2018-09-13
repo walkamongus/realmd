@@ -17,10 +17,11 @@ class realmd::join::password {
     $_computer_name = $::hostname[0,15]
   }
 
-  $_computer_name_arg = ["--computer-name=${_computer_name}"]
   if $::operatingsystem == 'Ubuntu' and $facts['os']['distro']['codename']  == 'xenial' {
     $_computer_name_arg  = ''
-    }
+  } else {
+      $_computer_name_arg = ["--computer-name=${_computer_name}"]
+  }
 
   if $_ou != undef {
     $_realm_args = [$_domain, '--unattended', "--computer-ou='${_ou}'", "--user=${_user}"]

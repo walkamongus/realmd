@@ -35,10 +35,11 @@ class realmd::join::one_time_password {
     }
   }
 
-  $_computer_name_arg = ["--computer-name=${_netbiosname}"]
   if $::operatingsystem == 'Ubuntu' and $facts['os']['distro']['codename']  == 'xenial' {
     $_computer_name_arg  = ''
-    }
+  } else {
+      $_computer_name_arg = ["--computer-name=${_netbiosname}"]
+  }
 
   if !empty($_netbiosname) {
     $_check_pricipal = $_netbiosname
