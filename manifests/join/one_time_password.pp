@@ -36,7 +36,7 @@ class realmd::join::one_time_password {
   }
 
   $_computer_name_arg = ["--computer-name=${_netbiosname}"]
-  if $::lsbdistcodename == 'xenial' {
+  if $::lsbdistid == 'Ubuntu' and $::lsbmajdistrelease >= 16 {
     $_computer_name_arg  = ''
     }
 
