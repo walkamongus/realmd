@@ -18,8 +18,7 @@ class realmd::join::password {
   }
 
   $_computer_name_arg = ["--computer-name=${_computer_name}"]
-
-  if $::lsbdistid == 'Ubuntu' and $::lsbmajdistrelease >= 16 {
+  if $::operatingsystem == 'Ubuntu' and $facts['os']['distro']['codename']  == 'xenial' {
     $_computer_name_arg  = ''
     }
 
