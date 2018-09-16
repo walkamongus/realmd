@@ -1,5 +1,17 @@
 # Change Log
 
+## [v2.4.0](https://github.com/walkamongus/realmd/tree/v2.4.0) (2018-09-16)
+[Full Changelog](https://github.com/walkamongus/realmd/compare/v2.3.0...v2.4.0)
+
+**Closed issues:**
+
+- Ubuntu 16.04: Unknown Option --computer-name [\#43](https://github.com/walkamongus/realmd/issues/43)
+- join with password, OU prefix [\#39](https://github.com/walkamongus/realmd/issues/39)
+
+**Merged pull requests:**
+
+- Ubuntu - Support realmd without --computer-name [\#53](https://github.com/walkamongus/realmd/pull/53) ([Romiko](https://github.com/Romiko))
+
 ## [v2.3.0](https://github.com/walkamongus/realmd/tree/v2.3.0) (2018-09-02)
 [Full Changelog](https://github.com/walkamongus/realmd/compare/v2.2.0...v2.3.0)
 
