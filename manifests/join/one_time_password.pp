@@ -36,10 +36,10 @@ class realmd::join::one_time_password {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    $_computer_name_arg  = $facts['os']['distro']['codename'] ? {
+      $_computer_name_arg  = $facts['os']['distro']['codename'] ? {
       'xenial'  => '',
       'bionic'  => '',
-      'default' => ["--computer-name=${_computer_name}"],
+      'default' => ["--computer-name=${_netbiosname}"],
     }
   } else {
       $_computer_name_arg = ["--computer-name=${_netbiosname}"]
