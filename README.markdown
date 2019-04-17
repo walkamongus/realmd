@@ -150,6 +150,7 @@ Default values are in params.pp.
 * `sssd_config_file`: String. The absolute path of the SSSD configuration file.
 * `sssd_config`: Hash. A hash of configuration options structured in an ini-style format.
 * `manage_sssd_config`: Boolean. Enable or disable management of the SSSD configuration file.
+* `manage_sssd_service`: Boolean. Enable or disable management of the SSSD service.
 * `required_packages`: Hash. A hash of package resources to manage for any auxilliary functionality.
 * `domain`: String. The name of the domain to join.
 * `domain_join_user`: String. The account to be used in joining the domain.

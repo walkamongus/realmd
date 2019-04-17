@@ -28,6 +28,7 @@ class realmd (
   Stdlib::Absolutepath $sssd_config_cache_file,
   Hash $sssd_config,
   Boolean $manage_sssd_config,
+  Boolean $manage_sssd_service,
   String $domain,
   String $netbiosname,
   Variant[String, Undef] $domain_join_user,
