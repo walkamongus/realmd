@@ -17,11 +17,14 @@ class realmd::join::password {
     $_computer_name = $::hostname[0,15]
   }
 
-  if $::operatingsystem == 'Ubuntu' and $facts['os']['distro']['codename']  == 'xenial' {
-    $_computer_name_arg  = $facts['os']['distro']['codename'] ? {     $_computer_name_arg  = ''
-    'xenial'  => '',
-    'bionic'  => '',
-    'default' => ["--computer-name=${_computer_name}"],
+  if $::operatingsystem == 'Ubuntu'  {
+      $_computer_name_arg  = $facts['os']['distro']['codename'] ? {
+      'xenial'  => '',
+      'bionic'  => '',
+      'default' => ["--computer-name=${_computer_name}"],
+    }
+  } else {
+      $_computer_name_arg = ["--computer-name=${_computer_name}"]
   }
 
   if $_ou != undef {
