@@ -65,10 +65,17 @@ class realmd (
     fail('The krb_config parameter cannot be an empty hash when managing the Kerberos client configuration')
   }
 
-  class { '::realmd::install': }
-  -> class { '::realmd::config': }
-  ~> class { '::realmd::join': }
-  -> class { '::realmd::sssd::config': }
-  ~> class { '::realmd::sssd::service': }
+  if $manage_sssd_service {
+    class { '::realmd::install': }
+    -> class { '::realmd::config': }
+    ~> class { '::realmd::join': }
+    -> class { '::realmd::sssd::config': }
+    ~> class { '::realmd::sssd::service': }
+  } else {
+    class { '::realmd::install': }
+    -> class { '::realmd::config': }
+    ~> class { '::realmd::join': }
+    -> class { '::realmd::sssd::config': }
+  }
 
 }
