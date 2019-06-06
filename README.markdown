@@ -137,7 +137,7 @@ Set up Realmd, join an Active Directory domain via a keytab and fully configure 
 
 ### Parameters
 
-Default values are in params.pp.
+Default values are in data/common.yaml.
 
 * `realmd_package_name`: String. The name of the main Realmd package.
 * `realmd_config_file`: String. The absolute path of the Realmd configuration file.
