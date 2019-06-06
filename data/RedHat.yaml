@@ -7,3 +7,5 @@ realmd::required_packages:
     ensure: present
   samba-common-tools:
     ensure: present
+  sssd:
+     ensure: present
