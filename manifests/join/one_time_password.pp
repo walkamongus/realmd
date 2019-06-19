@@ -55,7 +55,7 @@ class realmd::join::one_time_password {
   }
 
   if $_ou != undef {
-      $_ou_args=["--computer-ou='OU=${_ou}'"]
+      $_ou_args=["--computer-ou='${_ou}'"]
   }
   else {
       $_ou_args=[]
