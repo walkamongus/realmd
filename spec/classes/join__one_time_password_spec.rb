@@ -9,12 +9,16 @@ describe 'realmd' do
           facts
         end
 
-        context "realmd::join::one_time_password class" do
+        let(:params) do
+          {
+            :domain => 'example.com'
+          }
+        end
+
+        # test with password
+        context "realmd::join::one_time_password class with password" do
           let(:params) do
-            {
-              :one_time_password => 'password',
-              :domain                        => 'example.com',
-            }
+            super().merge({:one_time_password => 'password'})
           end
 
           it { is_expected.to contain_class('realmd::join::one_time_password') }
@@ -27,23 +31,24 @@ describe 'realmd' do
             })
           end
         end
-      end
 
-      # test with long hostname
-      context "on #{os}" do
-        let(:facts) do
-            facts.merge({
-                :hostname => 'to-long-hostname',
-                :domain   => 'example.com',
-                :fqdn     => 'to-long-hostname.example.com',
+        # test without password
+        context "realmd::join::one_time_password class without password" do
+          it { is_expected.to contain_class('realmd::join::one_time_password') }
+
+          it do
+            is_expected.to contain_exec('realm_join_one_time_password').with({
+              'path'    => '/usr/bin:/usr/sbin:/bin',
+              'command' => "adcli join --domain=example.com --user-principal=host/foo.example.com@EXAMPLE.COM --login-type=computer --no-password",
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
+          end
         end
-        
-        context "realmd::join::one_time_password class" do
+
+        # test with computer ou
+        context "realmd::join::one_time_password class with computer ou" do
           let(:params) do
-            {
-              :domain                        => 'example.com',
-            }
+            super().merge({:ou => 'ou=computer,dc=example,dc=net'})
           end
 
           it { is_expected.to contain_class('realmd::join::one_time_password') }
@@ -51,13 +56,33 @@ describe 'realmd' do
           it do
             is_expected.to contain_exec('realm_join_one_time_password').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
-              'command' => "adcli join --domain=example.com --user-principal=host/to-long-hostname.example.com@EXAMPLE.COM --login-type=computer --no-password", 
+              'command' => "adcli join --domain=example.com --user-principal=host/foo.example.com@EXAMPLE.COM --login-type=computer --computer-ou='ou=computer,dc=example,dc=net' --no-password",
+              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
+            })
+          end
+        end
+
+        # test with long hostname
+        context "realmd::join::one_time_password class with long hostname" do
+          let(:facts) do
+            super().merge({
+              :hostname => 'to-long-hostname',
+              :domain   => 'example.com',
+              :fqdn     => 'to-long-hostname.example.com',
+            })
+          end
+
+          it { is_expected.to contain_class('realmd::join::one_time_password') }
+
+          it do
+            is_expected.to contain_exec('realm_join_one_time_password').with({
+              'path'    => '/usr/bin:/usr/sbin:/bin',
+              'command' => "adcli join --domain=example.com --user-principal=host/to-long-hostname.example.com@EXAMPLE.COM --login-type=computer --no-password",
               'unless'  => "klist -k /etc/krb5.keytab | grep -i 'to-long-hostnam@example.com'", # 'e' is removed
             })
           end
         end
       end
-      
     end
   end
 end
