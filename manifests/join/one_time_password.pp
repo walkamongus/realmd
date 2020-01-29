@@ -35,20 +35,10 @@ class realmd::join::one_time_password {
     }
   }
 
-  if $::operatingsystem == 'Ubuntu' {
-      $_computer_name_arg  = $facts['os']['distro']['codename'] ? {
-      'xenial'  => '',
-      'bionic'  => '',
-      'default' => ["--computer-name=${_netbiosname}"],
-    }
-  } else {
-      $_computer_name_arg = ["--computer-name=${_netbiosname}"]
-  }
-
   if !empty($_netbiosname) {
     $_check_pricipal = $_netbiosname
     $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}",
-                    '--login-type=computer', $_computer_name_arg]
+                    '--login-type=computer', "--computer-name=${_netbiosname}"]
   } else {
     $_check_pricipal = $::hostname[0,15]
     $_domain_args = ["--domain=${_domain}", "--user-principal=host/${_fqdn}@${_realm}", '--login-type=computer']
