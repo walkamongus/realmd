@@ -21,6 +21,7 @@ class realmd::join::password {
       $_computer_name_arg  = $facts['os']['distro']['codename'] ? {
       'xenial'  => '',
       'bionic'  => '',
+      'focal'   => '',
       'default' => ["--computer-name=${_computer_name}"],
     }
   } else {
