@@ -20,9 +20,13 @@ describe 'realmd' do
           it { is_expected.to contain_class('realmd::join::password') }
 
           it do
+            command = '/usr/libexec/realm_join_with_password realm join example.com --unattended --user=user'
+            unless facts.dig(:os,'distro','id') == 'Ubuntu' && %w[xenial bionic focal].include?(facts.dig(:os,'distro','codename'))
+               command += ' --computer-name=foo'
+            end
             is_expected.to contain_exec('realm_join_with_password').with({
               'path'    => '/usr/bin:/usr/sbin:/bin',
-              'command' => '/usr/libexec/realm_join_with_password realm join example.com --unattended --user=user --computer-name=foo',
+              'command' => command,
               'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
             })
           end
