@@ -23,9 +23,11 @@ class realmd::install {
         require => Exec['apt_update'],
       }
 
-      package { $::realmd::sssd_package_name:
-        ensure  => $::realmd::sssd_package_ensure,
-        require => Exec['apt_update'],
+      if $realmd::manage_sssd_package {
+        package { $::realmd::sssd_package_name:
+          ensure  => $::realmd::sssd_package_ensure,
+          require => Exec['apt_update'],
+        }
       }
 
       $::realmd::required_packages.each | String $package, Hash $content | {
