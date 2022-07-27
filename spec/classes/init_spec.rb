@@ -20,7 +20,15 @@ describe 'realmd' do
           it { is_expected.to contain_class('realmd::sssd::config').that_requires('Class[realmd::join]') }
           it { is_expected.to contain_class('realmd::sssd::service').that_subscribes_to('Class[realmd::sssd::config]') }
         end
+
+        context "realmd class with manage_sssd_package => false" do
+          let(:params) { { 'manage_sssd_package' => false } }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.not_to contain_package('sssd') }
+        end
       end
+
+
     end
   end
 
