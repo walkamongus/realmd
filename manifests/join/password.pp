@@ -24,8 +24,11 @@ class realmd::join::password {
       'focal'   => '',
       'default' => ["--computer-name=${_computer_name}"],
     }
-  } else {
-      $_computer_name_arg = ["--computer-name=${_computer_name}"]
+  } elsif ($facts['os']['family'] == 'RedHat' and Integer($facts['os']['release']['major']) >= 8)  {
+    $_computer_name_arg = ''
+  }
+  else {
+    $_computer_name_arg = ["--computer-name=${_computer_name}"]
   }
 
   if $_ou != undef {
