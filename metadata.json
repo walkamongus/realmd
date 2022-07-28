@@ -3,7 +3,6 @@
   "version": "2.5.0",
   "author": "Chadwick Banning",
   "summary": "Puppet module to install and configure Realmd",
-  "data_provider": "hiera",
   "license": "Apache-2.0",
   "source": "https://github.com/walkamongus/realmd",
   "project_page": "https://github.com/walkamongus/realmd",

@@ -43,7 +43,7 @@ class realmd (
   Variant[String, Undef] $ou,
   Hash $required_packages,
   Variant[Array, Undef] $extra_join_options,
-  Variant[String[1, 15], Undef] $computer_name,
+  Variant[String[1, 15], Undef, Boolean[false]] $computer_name,
 ) {
 
   if $krb_ticket_join == false {
