@@ -1,5 +1,6 @@
 ---
 realmd::krb_client_package_name: krb5-workstation
+
 realmd::required_packages:
   oddjob:
     ensure: present
@@ -7,5 +8,4 @@ realmd::required_packages:
     ensure: present
   samba-common-tools:
     ensure: present
-  sssd:
-     ensure: present
+
