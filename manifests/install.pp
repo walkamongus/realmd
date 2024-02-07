@@ -22,32 +22,5 @@ class realmd::install {
     }
   }
 
-  case $facts['os']['name'] {
-    'Ubuntu': {
-      include apt
-
-      Exec['apt_update']
-      -> Package[[
-        $::realmd::realmd_package_name,
-        $::realmd::adcli_package_name,
-        $::realmd::adcli_package_name,
-        $::realmd::krb_client_package_name,
-      ]]
-
-      if $realmd::manage_sssd_package {
-        Exec['apt_update'] -> Package[$::realmd::sssd_package_name]
-      }
-
-      $::realmd::required_packages.each | String $package, Hash $content | {
-        Exec['apt_update']
-        -> package { $package:
-          ensure  => $content['ensure'],
-        }
-      }
-    }
-    default: {
-      ensure_packages($::realmd::required_packages)
-    }
-  }
-
+  ensure_packages($::realmd::required_packages)
 }
