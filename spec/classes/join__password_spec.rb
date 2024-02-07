@@ -20,7 +20,7 @@ describe 'realmd' do
           let(:doesnt_use_computer_name) do
             is_ubuntu_20 = (
               facts.dig(:os, 'distro', 'id') == 'Ubuntu' &&
-              ['xenial', 'bionic', 'focal'].include?(facts.dig(:os, 'distro', 'codename'))
+              ['xenial', 'bionic', 'focal', 'jammy'].include?(facts.dig(:os, 'distro', 'codename'))
             )
             is_el8_or_higher = (
               facts.dig(:os, 'family') == 'RedHat' &&
@@ -34,17 +34,19 @@ describe 'realmd' do
           it do
             command = '/usr/libexec/realm_join_with_password realm join example.com --unattended --user=user'
             if doesnt_use_computer_name
-              is_expected.to contain_exec('realm_join_with_password').with({
-                                                                             'path'    => '/usr/bin:/usr/sbin:/bin',
-                'command' => command,
-                'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
-                                                                           })
+              is_expected.to contain_exec('realm_join_with_password')
+                .with(
+                  path:    '/usr/bin:/usr/sbin:/bin',
+                  command: command,
+                  unless:  "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
+                )
             else
-              is_expected.to contain_exec('realm_join_with_password').with({
-                                                                             'path'    => '/usr/bin:/usr/sbin:/bin',
-                'command' => command += ' --computer-name=foo',
-                'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
-                                                                           })
+              is_expected.to contain_exec('realm_join_with_password')
+                .with(
+                  path:    '/usr/bin:/usr/sbin:/bin',
+                  command: command + ' --computer-name=foo',
+                  unless:  "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
+                )
             end
           end
         end

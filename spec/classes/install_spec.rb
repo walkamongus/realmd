@@ -2,11 +2,9 @@ require 'spec_helper'
 
 describe 'realmd' do
   context 'supported operating systems' do
-    on_supported_os.each do |os, facts|
+    on_supported_os.each do |os, os_facts|
       context "on #{os}" do
-        let(:facts) do
-          facts
-        end
+        let(:facts) { os_facts }
 
         context 'realmd::install class with default parameters' do
           let(:params) { {} }
@@ -14,37 +12,33 @@ describe 'realmd' do
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_class('realmd::install') }
 
-          case facts[:osfamily]
-          when 'Debian'
-            packages = [
-              'realmd',
-              'sssd',
-              'adcli',
-              'krb5-user',
-              'sssd-tools',
-              'libpam-modules',
-              'libnss-sss',
-              'libpam-sss',
-              'samba-common-bin',
-            ]
+          packages = case os_facts[:os]['family']
+                     when 'Debian'
+                       [
+                         'realmd',
+                         'sssd',
+                         'adcli',
+                         'krb5-user',
+                         'sssd-tools',
+                         'libpam-modules',
+                         'libnss-sss',
+                         'libpam-sss',
+                         'samba-common-bin',
+                       ]
+                     when 'RedHat'
+                       [
+                         'realmd',
+                         'sssd',
+                         'adcli',
+                         'krb5-workstation',
+                         'oddjob',
+                         'oddjob-mkhomedir',
+                         'samba-common-tools',
+                       ]
+                     end
 
-            packages.each do |package|
-              it { is_expected.to contain_package(package).with_ensure('present') }
-            end
-          when 'RedHat'
-            packages = [
-              'realmd',
-              'sssd',
-              'adcli',
-              'krb5-workstation',
-              'oddjob',
-              'oddjob-mkhomedir',
-              'samba-common-tools',
-            ]
-
-            packages.each do |package|
-              it { is_expected.to contain_package(package).with_ensure('present') }
-            end
+          packages.each do |package|
+            it { is_expected.to contain_package(package).with_ensure('installed') }
           end
         end
       end

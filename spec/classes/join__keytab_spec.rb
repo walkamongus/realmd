@@ -2,11 +2,9 @@ require 'spec_helper'
 
 describe 'realmd' do
   context 'supported operating systems' do
-    on_supported_os.each do |os, facts|
+    on_supported_os.each do |os, os_facts|
       context "on #{os}" do
-        let(:facts) do
-          facts
-        end
+        let(:facts) { os_facts }
 
         context 'realmd::join::keytab class with default krb_config' do
           let(:params) do
@@ -23,61 +21,64 @@ describe 'realmd' do
           it { is_expected.to contain_class('realmd::join::keytab') }
 
           it do
-            is_expected.to contain_file('krb_keytab').with({
-                                                             'path' => '/tmp/join.keytab',
-              'owner' => 'root',
-              'group' => 'root',
-              'mode'  => '0400',
-                                                           }).that_comes_before('Exec[run_kinit_with_keytab]')
+            is_expected.to contain_file('krb_keytab')
+              .that_comes_before('Exec[run_kinit_with_keytab]')
+              .with(
+                path: '/tmp/join.keytab',
+                owner: 'root',
+                group: 'root',
+                mode: '0400',
+              )
           end
 
           it do
-            is_expected.to contain_file('krb_configuration').with({
-                                                                    'path' => '/etc/krb5.conf',
-              'owner' => 'root',
-              'group' => 'root',
-              'mode'  => '0644',
-                                                                  }).that_comes_before('Exec[run_kinit_with_keytab]')
+            is_expected.to contain_file('krb_configuration')
+              .that_comes_before('Exec[run_kinit_with_keytab]')
+              .with(
+                path: '/etc/krb5.conf',
+                owner: 'root',
+                group: 'root',
+                mode: '0644',
+              )
           end
 
           it do
-            is_expected.to contain_file('krb_configuration').with_content(
-              %r{\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n},
-            )
+            is_expected.to contain_file('krb_configuration')
+              .with_content(%r{\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n})
           end
 
           it do
-            is_expected.to contain_file('krb_configuration').with_content(
-              %r{dns_lookup_realm = true\n},
-            )
+            is_expected.to contain_file('krb_configuration')
+              .with_content(%r{dns_lookup_realm = true\n})
           end
 
           it do
-            is_expected.to contain_file('krb_configuration').with_content(
-              %r{dns_lookup_kdc = true\n},
-            )
+            is_expected.to contain_file('krb_configuration')
+              .with_content(%r{dns_lookup_kdc = true\n})
           end
 
           it do
-            is_expected.to contain_file('krb_configuration').with_content(
-              %r{kdc_timesync = 0\n},
-            )
+            is_expected.to contain_file('krb_configuration')
+              .with_content(%r{kdc_timesync = 0\n})
           end
 
           it do
-            is_expected.to contain_exec('run_kinit_with_keytab').with({
-                                                                        'path' => '/usr/bin:/usr/sbin:/bin',
-              'command' => 'kinit -kt /tmp/join.keytab user',
-              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
-                                                                      }).that_comes_before('Exec[realm_join_with_keytab]')
+            is_expected.to contain_exec('run_kinit_with_keytab')
+              .that_comes_before('Exec[realm_join_with_keytab]')
+              .with(
+                path: '/usr/bin:/usr/sbin:/bin',
+                command: 'kinit -kt /tmp/join.keytab user',
+                unless: "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
+              )
           end
 
           it do
-            is_expected.to contain_exec('realm_join_with_keytab').with({
-                                                                         'path' => '/usr/bin:/usr/sbin:/bin',
-              'command' => 'realm join example.com',
-              'unless'  => "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
-                                                                       })
+            is_expected.to contain_exec('realm_join_with_keytab')
+              .with(
+                path: '/usr/bin:/usr/sbin:/bin',
+                command: 'realm join example.com',
+                unless: "klist -k /etc/krb5.keytab | grep -i 'foo@example.com'",
+              )
           end
         end
 
@@ -109,21 +110,18 @@ describe 'realmd' do
           it { is_expected.to contain_class('realmd::join::keytab') }
 
           it do
-            is_expected.to contain_file('krb_configuration').with_content(
-              %r{\[domain_realm\]\nlocalhost.example.com = EXAMPLE.COM\n},
-            )
+            is_expected.to contain_file('krb_configuration')
+              .with_content(%r{\[domain_realm\]\nlocalhost.example.com = EXAMPLE.COM\n})
           end
 
           it do
-            is_expected.to contain_file('krb_configuration').with_content(
-              %r{\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n},
-            )
+            is_expected.to contain_file('krb_configuration')
+              .with_content(%r{\[libdefaults\]\ndefault_realm = EXAMPLE.COM\n})
           end
 
           it do
-            is_expected.to contain_file('krb_configuration').with_content(
-              %r{\[realms\]\nEXAMPLE.COM = {\n  kdc = dc.example.com:88\n},
-            )
+            is_expected.to contain_file('krb_configuration')
+              .with_content(%r{\[realms\]\nEXAMPLE.COM = \{\n  kdc = dc.example.com:88\n})
           end
         end
       end

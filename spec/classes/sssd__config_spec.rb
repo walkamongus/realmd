@@ -2,11 +2,9 @@ require 'spec_helper'
 
 describe 'realmd' do
   context 'supported operating systems' do
-    on_supported_os.each do |os, facts|
+    on_supported_os.each do |os, os_facts|
       context "on #{os}" do
-        let(:facts) do
-          facts
-        end
+        let(:facts) { os_facts }
 
         context 'realmd::sssd::config class with custom config' do
           let(:params) do
@@ -29,11 +27,12 @@ describe 'realmd' do
           end
 
           it do
-            is_expected.to contain_file('/etc/sssd/sssd.conf').with({
-                                                                      owner: 'root',
-              group: 'root',
-              mode: '0600'
-                                                                    })
+            is_expected.to contain_file('/etc/sssd/sssd.conf')
+              .with(
+                owner: 'root',
+                group: 'root',
+                mode: '0600',
+              )
           end
 
           it { is_expected.to contain_file('/etc/sssd/sssd.conf').that_notifies('Service[sssd]') }
@@ -43,11 +42,12 @@ describe 'realmd' do
           it { is_expected.to contain_file('/etc/sssd/sssd.conf').with_content(%r{access_provider = ad}) }
 
           it do
-            is_expected.to contain_exec('force_config_cache_rebuild').with({
-                                                                             'path' => '/usr/bin:/usr/sbin:/bin',
-              'command'     => 'rm -f /var/lib/sss/db/config.ldb',
-              'refreshonly' => true,
-                                                                           })
+            is_expected.to contain_exec('force_config_cache_rebuild')
+              .with(
+                path:        '/usr/bin:/usr/sbin:/bin',
+                command:     'rm -f /var/lib/sss/db/config.ldb',
+                refreshonly: true,
+              )
           end
         end
       end
