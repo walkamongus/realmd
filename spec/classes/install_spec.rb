@@ -8,8 +8,8 @@ describe 'realmd' do
           facts
         end
 
-        context "realmd::install class with default parameters" do
-          let(:params) {{ }}
+        context 'realmd::install class with default parameters' do
+          let(:params) { {} }
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_class('realmd::install') }

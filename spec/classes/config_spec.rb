@@ -8,15 +8,15 @@ describe 'realmd' do
           facts
         end
 
-        context "realmd::config class with default parameters" do
-          let(:params) {{ }}
+        context 'realmd::config class with default parameters' do
+          let(:params) { {} }
 
           it do
-            should contain_file('/etc/realmd.conf').with({
-	          :owner => 'root',
-	          :group => 'root',
-	          :mode  => '0640',
-          })
+            is_expected.to contain_file('/etc/realmd.conf').with({
+                                                                   owner: 'root',
+            group: 'root',
+            mode: '0640',
+                                                                 })
           end
         end
       end
