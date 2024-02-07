@@ -20,7 +20,7 @@ describe 'realmd' do
           let(:doesnt_use_computer_name) do
             is_ubuntu_20 = (
               facts.dig(:os, 'distro', 'id') == 'Ubuntu' &&
-              ['xenial', 'bionic', 'focal', 'jammy'].include?(facts.dig(:os, 'distro', 'codename'))
+              ['focal', 'jammy'].include?(facts.dig(:os, 'distro', 'codename'))
             )
             is_el8_or_higher = (
               facts.dig(:os, 'family') == 'RedHat' &&
