@@ -45,7 +45,6 @@ class realmd (
   Variant[Array, Undef] $extra_join_options,
   Variant[String[1, 15], Undef, Boolean[false]] $computer_name,
 ) {
-
   if $krb_ticket_join == false {
     if ($domain_join_user and !$domain_join_password) {
       fail('Cannot set domain_join_user without domain_join_password')
@@ -80,5 +79,4 @@ class realmd (
     contain 'realmd::sssd::service'
     Class['realmd::sssd::config'] ~> Class['realmd::sssd::service']
   }
-
 }
