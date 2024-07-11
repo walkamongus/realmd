@@ -31,6 +31,7 @@ class realmd (
   Boolean $manage_sssd_service,
   Boolean $manage_sssd_package,
   String $domain,
+  Variant[Stdlib::Host, Undef, Boolean[false]] $joining_dc,
   String $netbiosname,
   Variant[String, Undef] $domain_join_user,
   Variant[String, Undef] $domain_join_password,

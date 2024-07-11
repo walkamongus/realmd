@@ -17,6 +17,12 @@ class realmd::join::password {
     $_computer_name = $::hostname[0,15]
   }
 
+  if $::realmd::joining_dc != undef {
+    $_joining_dc = $::realmd::joining_dc
+  } else {
+    $_joining_dc = $_domain
+  }
+
   if $::operatingsystem == 'Ubuntu'  {
       $_computer_name_arg  = $facts['os']['distro']['codename'] ? {
       'xenial'  => '',
@@ -33,9 +39,9 @@ class realmd::join::password {
   }
 
   if $_ou != undef {
-    $_realm_args = [$_domain, '--unattended', "--computer-ou='${_ou}'", "--user=${_user}"]
+    $_realm_args = [$_joining_dc, '--unattended', "--computer-ou='${_ou}'", "--user=${_user}"]
   } else {
-    $_realm_args = [$_domain, '--unattended', "--user=${_user}"]
+    $_realm_args = [$_joining_dc, '--unattended', "--user=${_user}"]
   }
 
   $_args = strip(join(concat($_realm_args, $_computer_name_arg, $_extra_join_options), ' '))

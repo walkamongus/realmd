@@ -17,6 +17,7 @@ realmd::manage_sssd_config: false
 realmd::manage_sssd_service: true
 realmd::manage_sssd_package: true
 realmd::domain: "%{::domain}"
+realmd::joining_dc: ~
 realmd::domain_join_user: ~
 realmd::domain_join_password: ~
 realmd::one_time_password: ~

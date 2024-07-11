@@ -15,6 +15,12 @@ class realmd::join::keytab {
 
   $_krb_config_final = deep_merge({'libdefaults' => {'default_realm' => upcase($::domain)}}, $_krb_config)
 
+  if $::realmd::joining_dc != undef {
+    $_joining_dc = $::realmd::joining_dc
+  } else {
+    $_joining_dc = $_domain
+  }
+
   file { 'krb_keytab':
     path   => $_krb_keytab,
     owner  => 'root',
@@ -43,9 +49,9 @@ class realmd::join::keytab {
   }
 
   if $_ou != undef {
-    $_realm_args = [$_domain, "--computer-ou=${_ou}"]
+    $_realm_args = [$_joining_dc, "--computer-ou=${_ou}"]
   } else {
-    $_realm_args = [$_domain,]
+    $_realm_args = [$_joining_dc,]
   }
 
   $_args = join($_realm_args, ' ')
